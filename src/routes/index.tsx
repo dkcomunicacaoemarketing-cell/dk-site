@@ -169,6 +169,7 @@ const SECTIONS: Section[] = [
           className="mt-8 max-w-2xl font-elegant text-xl leading-snug text-muted-foreground sm:text-2xl"
         />
         
+          <a
           href="https://wa.me/5551981809645"
           className="mt-10 inline-flex items-center rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background transition-transform duration-200 hover:scale-[1.03]"
         >
@@ -349,6 +350,7 @@ const SECTIONS: Section[] = [
               </a>
             </p>
             
+              <a
               href="https://wa.me/5551981809645"
               className="mt-6 inline-flex items-center rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background transition-transform duration-200 hover:scale-[1.03]"
             >
