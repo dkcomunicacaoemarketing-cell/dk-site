@@ -168,7 +168,7 @@ const SECTIONS: Section[] = [
           text="Comunicação estratégica para pré-campanhas, campanhas eleitorais, mandatos e comunicação institucional."
           className="mt-8 max-w-2xl font-elegant text-xl leading-snug text-muted-foreground sm:text-2xl"
         />
-        <a
+        
           href="https://wa.me/5551981809645"
           className="mt-10 inline-flex items-center rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background transition-transform duration-200 hover:scale-[1.03]"
         >
@@ -348,7 +348,7 @@ const SECTIONS: Section[] = [
                 danielcosta.jornalista@gmail.com
               </a>
             </p>
-            <a
+            
               href="https://wa.me/5551981809645"
               className="mt-6 inline-flex items-center rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background transition-transform duration-200 hover:scale-[1.03]"
             >
@@ -393,6 +393,8 @@ function Index() {
       <ScrollTypewriter
         text={MANIFESTO}
         heightVh={260}
+        imageSrc="/images/daniel-costa.jpg"
+        imageAlt="Daniel Costa"
         className="font-elegant text-[1.35rem] leading-[1.45] tracking-tight sm:text-3xl md:text-[2.4rem] md:leading-[1.35]"
       />
 
@@ -404,4 +406,3 @@ function Index() {
     </main>
   );
 }
-
