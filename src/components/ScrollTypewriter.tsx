@@ -63,7 +63,7 @@ export function ScrollTypewriter({
             <img
               src={imageSrc}
               alt={imageAlt}
-              className="aspect-square w-40 shrink-0 rounded-full object-cover shadow-xl sm:w-52 md:w-64"
+              className="aspect-square w-40 shrink-0 rounded-full object-cover object-top shadow-xl sm:w-52 md:w-64"
             />
           </div>
         ) : (
