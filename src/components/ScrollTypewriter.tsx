@@ -55,15 +55,15 @@ export function ScrollTypewriter({
     <div ref={wrapperRef} style={{ height: `${heightVh}vh` }} className="relative">
       <div className="sticky top-0 flex h-screen items-center justify-center px-6 pt-16">
         {imageSrc ? (
-          <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 md:flex-row md:gap-14">
-            <p className={`text-balance md:flex-1 ${className}`}>
+          <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-10 sm:flex-row sm:items-center sm:justify-between sm:gap-14">
+            <p className={`text-left text-balance sm:flex-1 ${className}`}>
               <span>{text.slice(0, count)}</span>
               <span aria-hidden className={`caret ${done ? "opacity-0" : ""}`} />
             </p>
             <img
               src={imageSrc}
               alt={imageAlt}
-              className="w-44 shrink-0 rounded-2xl object-cover shadow-xl sm:w-56 md:w-64"
+              className="aspect-square w-40 shrink-0 rounded-full object-cover shadow-xl sm:w-52 md:w-64"
             />
           </div>
         ) : (

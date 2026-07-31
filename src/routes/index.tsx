@@ -380,9 +380,14 @@ function Index() {
 
       {/* Abertura DK */}
       <section className="relative flex min-h-screen flex-col items-center justify-center px-6 pt-20">
-        <h1 className="font-display text-[26vw] font-black leading-none tracking-[-0.04em] sm:text-[20vw]">
-          DK
-        </h1>
+        <div className="relative">
+          <h1 className="font-display text-[26vw] font-black leading-none tracking-[-0.04em] sm:text-[20vw]">
+            DK
+          </h1>
+          <span className="absolute left-1/2 top-[56%] -translate-x-1/2 whitespace-nowrap text-[2.6vw] font-medium uppercase tracking-[0.3em] text-background sm:text-[1.1vw]">
+            Marketing Político
+          </span>
+        </div>
         <div className="scroll-hint absolute bottom-10 flex flex-col items-center gap-2 text-xs uppercase tracking-[0.28em] text-muted-foreground">
           <span>Role para descer</span>
           <span className="h-8 w-px bg-foreground/30" />
