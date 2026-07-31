@@ -8,10 +8,14 @@ export function ScrollTypewriter({
   text,
   heightVh = 220,
   className = "",
+  imageSrc,
+  imageAlt = "",
 }: {
   text: string;
   heightVh?: number;
   className?: string;
+  imageSrc?: string;
+  imageAlt?: string;
 }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
@@ -50,13 +54,27 @@ export function ScrollTypewriter({
   return (
     <div ref={wrapperRef} style={{ height: `${heightVh}vh` }} className="relative">
       <div className="sticky top-0 flex h-screen items-center justify-center px-6 pt-16">
-        <p className={`mx-auto max-w-4xl text-balance ${className}`}>
-          <span>{text.slice(0, count)}</span>
-          <span
-            aria-hidden
-            className={`caret ${done ? "opacity-0" : ""}`}
-          />
-        </p>
+        {imageSrc ? (
+          <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 md:flex-row md:gap-14">
+            <p className={`text-balance md:flex-1 ${className}`}>
+              <span>{text.slice(0, count)}</span>
+              <span aria-hidden className={`caret ${done ? "opacity-0" : ""}`} />
+            </p>
+            <img
+              src={imageSrc}
+              alt={imageAlt}
+              className="w-44 shrink-0 rounded-2xl object-cover shadow-xl sm:w-56 md:w-64"
+            />
+          </div>
+        ) : (
+          <p className={`mx-auto max-w-4xl text-balance ${className}`}>
+            <span>{text.slice(0, count)}</span>
+            <span
+              aria-hidden
+              className={`caret ${done ? "opacity-0" : ""}`}
+            />
+          </p>
+        )}
       </div>
     </div>
   );
