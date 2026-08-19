@@ -506,20 +506,20 @@
 
         <div class="clay-element flow-card flow-card-big gs-reveal" style="left:1460px; top:600px;">
           <div class="flow-card-solid" style="background:#2b2b2b;">
-            <h3 class="flow-card-title-big">Construindo posicionamento com direção clara</h3>
-            <p class="flow-card-text">A DK constrói o discurso, o conceito e o posicionamento de candidatos, mandatos e instituições, conectando quem governa ou disputa com o eleitor de forma direta e coerente. Cada projeto nasce de um diagnóstico real, não de fórmula pronta.</p>
+            <h3 class="flow-card-title-big tw">Construindo posicionamento com direção clara</h3>
+            <p class="flow-card-text tw">A DK constrói o discurso, o conceito e o posicionamento de candidatos, mandatos e instituições, conectando quem governa ou disputa com o eleitor de forma direta e coerente. Cada projeto nasce de um diagnóstico real, não de fórmula pronta.</p>
           </div>
         </div>
         <div class="clay-element flow-card flow-card-big gs-reveal" style="left:2120px; top:400px;">
           <div class="flow-card-solid" style="background:#2b2b2b;">
-            <h3 class="flow-card-title-big">Uma só equipe, do jornalismo à produção</h3>
-            <p class="flow-card-text">Com bagagem de jornalismo, publicidade, fotografia, administração e inteligência artificial dentro de casa, a DK entrega assessoria de imprensa, redes sociais, identidade visual, cobertura fotográfica, audiovisual e IA sob uma mesma direção, com coerência entre o que se fala, o que se mostra e o que se entrega.</p>
+            <h3 class="flow-card-title-big tw">Uma só equipe, do jornalismo à produção</h3>
+            <p class="flow-card-text tw">Com bagagem de jornalismo, publicidade, fotografia, administração e inteligência artificial dentro de casa, a DK entrega assessoria de imprensa, redes sociais, identidade visual, cobertura fotográfica, audiovisual e IA sob uma mesma direção, com coerência entre o que se fala, o que se mostra e o que se entrega.</p>
           </div>
         </div>
         <div class="clay-element flow-card flow-card-big gs-reveal" style="left:2120px; top:800px;">
           <div class="flow-card-solid" style="background:#2b2b2b;">
-            <h3 class="flow-card-title-big">Acompanhando a campanha do início ao resultado</h3>
-            <p class="flow-card-text">Mais que produzir conteúdo, a DK acompanha a trajetória: planejamento, execução, ajuste de rota e resposta rápida em momentos de crise, pensando em cada entrega como parte de um caminho, não como peça avulsa.</p>
+            <h3 class="flow-card-title-big tw">Acompanhando a campanha do início ao resultado</h3>
+            <p class="flow-card-text tw">Mais que produzir conteúdo, a DK acompanha a trajetória: planejamento, execução, ajuste de rota e resposta rápida em momentos de crise, pensando em cada entrega como parte de um caminho, não como peça avulsa.</p>
           </div>
         </div>
       </div>
@@ -813,7 +813,7 @@
 
   const canvas = document.getElementById('canvas');
   if (canvas && window.innerWidth > 820) {
-    let scrollMax = canvas.scrollWidth - window.innerWidth + 950;
+    let scrollMax = canvas.scrollWidth - window.innerWidth + 200;
 
     const horizontalTween = gsap.to(canvas, {
       x: -scrollMax,
@@ -860,35 +860,6 @@
         }
       });
     });
-
-    // ---------- Texto dos cards: digitação ligada ao progresso do scroll horizontal ----------
-    // (o rect vertical do card não muda durante o pin, então usamos a posição no canvas em vez disso)
-    const cardTypewriters = [];
-    document.querySelectorAll('.flow-card-big').forEach((card) => {
-      const leftPos = parseFloat(card.style.left);
-      card.querySelectorAll('.flow-card-title-big, .flow-card-text').forEach((el) => {
-        const fullText = el.textContent;
-        el.textContent = '';
-        const span = document.createElement('span');
-        el.appendChild(span);
-        cardTypewriters.push({ span, fullText, leftPos });
-      });
-    });
-    function updateCardTypewriters() {
-      const canvasX = gsap.getProperty(canvas, 'x');
-      const viewportW = window.innerWidth;
-      const revealWindow = 400;
-      cardTypewriters.forEach((item) => {
-        const screenX = item.leftPos + canvasX;
-        const revealScreenX = viewportW - 380;
-        let progress = (revealScreenX - screenX) / revealWindow;
-        progress = Math.min(Math.max(progress, 0), 1);
-        const count = Math.round(progress * item.fullText.length);
-        item.span.textContent = item.fullText.slice(0, count);
-      });
-    }
-    horizontalTween.eventCallback('onUpdate', updateCardTypewriters);
-    updateCardTypewriters();
   }
 
   // ---------- DK IA: chat widget ----------
