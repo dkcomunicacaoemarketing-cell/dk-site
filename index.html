@@ -174,7 +174,7 @@
     .scroll-wrapper { display: none; }
     .mobile-flow { display: block; }
   }
-  .canvas { position: absolute; top: 50%; transform: translateY(-50%); width: 2450px; height: 900px; }
+  .canvas { position: absolute; top: 50%; transform: translateY(-50%); width: 2450px; height: 1200px; }
   .lines-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
   .line-path { stroke: var(--fg); stroke-width: 3; fill: none; stroke-linecap: round; }
   .clay-element { position: absolute; transform: translate(-50%, -50%); z-index: 2; }
@@ -258,6 +258,7 @@
   .slider .item:nth-child(4) { left: calc(55% + 170px); }
   .slider .item:nth-child(5) { left: calc(55% + 340px); }
   .slider .item:nth-child(6) { left: calc(52% + 510px); opacity: 0; }
+  .slider .item:nth-child(n+7) { left: calc(52% + 510px); opacity: 0; pointer-events: none; }
   .slider .item-slot {
     font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: var(--muted);
     background: rgba(255,255,255,0.7); padding: 0.3rem 0.6rem; border-radius: 999px; margin: 0.6rem;
@@ -319,11 +320,11 @@
   @media (min-width: 768px) { .dkia-overlay { align-items: center; padding: 1.5rem; } }
 
   .dkia-modal {
-    background: var(--bg); width: 100%; max-width: 42rem; height: 85vh; max-height: 640px;
+    background: var(--bg); width: 100%; max-width: 42rem; height: 85vh; height: 85dvh; max-height: 640px;
     border-radius: 1.25rem 1.25rem 0 0; display: flex; flex-direction: column; overflow: hidden;
     box-shadow: 0 30px 80px rgba(0,0,0,0.35);
   }
-  @media (min-width: 768px) { .dkia-modal { border-radius: 1.25rem; height: 70vh; } }
+  @media (min-width: 768px) { .dkia-modal { border-radius: 1.25rem; height: 70vh; height: 70dvh; } }
 
   .dkia-header {
     display: flex; align-items: center; justify-content: space-between;
@@ -485,37 +486,37 @@
 
     <div class="scroll-wrapper" id="scrollWrapper">
       <div class="canvas" id="canvas">
-        <svg class="lines-layer" viewBox="0 0 2450 900">
-          <path class="line-path" d="M 980 400 L 1260 400" />
-          <path class="line-path" d="M 1660 400 C 1780 400, 1820 220, 1940 220" />
-          <path class="line-path" d="M 1660 400 C 1780 400, 1820 580, 1940 580" />
-          <path class="line-path" d="M 1940 220 L 1950 220" />
-          <path class="line-path" d="M 1940 580 L 1950 580" />
+        <svg class="lines-layer" viewBox="0 0 2450 1200">
+          <path class="line-path" d="M 980 600 L 1260 600" />
+          <path class="line-path" d="M 1660 600 C 1780 600, 1820 400, 1940 400" />
+          <path class="line-path" d="M 1660 600 C 1780 600, 1820 800, 1940 800" />
+          <path class="line-path" d="M 1940 400 L 1950 400" />
+          <path class="line-path" d="M 1940 800 L 1950 800" />
         </svg>
 
-        <div class="clay-element connector-dot gs-reveal" style="left:980px; top:400px;"></div>
-        <div class="clay-element connector-dot gs-reveal" style="left:1260px; top:400px;"></div>
-        <div class="clay-element connector-dot gs-reveal" style="left:1660px; top:400px;"></div>
-        <div class="clay-element connector-dot gs-reveal" style="left:1940px; top:220px;"></div>
-        <div class="clay-element connector-dot gs-reveal" style="left:1940px; top:580px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:980px; top:600px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:1260px; top:600px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:1660px; top:600px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:1940px; top:400px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:1940px; top:800px;"></div>
 
-        <div class="clay-element plus-btn gs-reveal" style="left:1120px; top:400px;">+</div>
-        <div class="clay-element plus-btn gs-reveal" style="left:1800px; top:300px;">+</div>
-        <div class="clay-element plus-btn gs-reveal" style="left:1800px; top:500px;">+</div>
+        <div class="clay-element plus-btn gs-reveal" style="left:1120px; top:600px;">+</div>
+        <div class="clay-element plus-btn gs-reveal" style="left:1800px; top:480px;">+</div>
+        <div class="clay-element plus-btn gs-reveal" style="left:1800px; top:720px;">+</div>
 
-        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:1460px; top:400px;">
+        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:1460px; top:600px;">
           <div class="flow-card-solid" style="background:#2b2b2b;">
             <h3 class="flow-card-title-big tw">Construindo posicionamento com direção clara</h3>
             <p class="flow-card-text tw">A DK constrói o discurso, o conceito e o posicionamento de candidatos, mandatos e instituições, conectando quem governa ou disputa com o eleitor de forma direta e coerente. Cada projeto nasce de um diagnóstico real, não de fórmula pronta.</p>
           </div>
         </div>
-        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:2120px; top:220px;">
+        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:2120px; top:400px;">
           <div class="flow-card-solid" style="background:#2b2b2b;">
             <h3 class="flow-card-title-big tw">Uma só equipe, do jornalismo à produção</h3>
             <p class="flow-card-text tw">Com bagagem de jornalismo, publicidade, fotografia, administração e inteligência artificial dentro de casa, a DK entrega assessoria de imprensa, redes sociais, identidade visual, cobertura fotográfica, audiovisual e IA sob uma mesma direção, com coerência entre o que se fala, o que se mostra e o que se entrega.</p>
           </div>
         </div>
-        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:2120px; top:580px;">
+        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:2120px; top:800px;">
           <div class="flow-card-solid" style="background:#2b2b2b;">
             <h3 class="flow-card-title-big tw">Acompanhando a campanha do início ao resultado</h3>
             <p class="flow-card-text tw">Mais que produzir conteúdo, a DK acompanha a trajetória: planejamento, execução, ajuste de rota e resposta rápida em momentos de crise, pensando em cada entrega como parte de um caminho, não como peça avulsa.</p>
@@ -598,53 +599,89 @@
 
     <!--
       COMO TROCAR PELOS ARQUIVOS REAIS:
-      Cada <li class="item"> abaixo é um slot (01_foto, 02_foto, 01_arte, 01_video...).
-      Troque o "background-image: url('')" pela URL da foto/arte real.
-      Para vídeo, adicione uma tag <video> dentro do item com o src do vídeo.
+      Cada <li class="item"> abaixo é um slot (v1, v2, f1, f2, a1, a2, ia1, ia2...).
+      Para foto/arte: troque o "background-image: url('')" pela URL da imagem real.
+      Para vídeo: troque o <li> por uma tag <video class="item" src="URL_DO_VIDEO.mp4" muted loop autoplay playsinline></video>
+      (os arquivos de vídeo devem ser .mp4)
     -->
     <div class="portfolio-slider-wrap">
       <main class="portfolio-main">
         <ul class="slider">
           <li class="item" style="background-image: url('')">
-            <span class="item-slot">01_foto</span>
+            <span class="item-slot">v1</span>
             <div class="content">
-              <h2 class="title">01_foto</h2>
-              <p class="description">Espaço reservado para foto do projeto.</p>
-            </div>
-          </li>
-          <li class="item" style="background-image: url('')">
-            <span class="item-slot">02_foto</span>
-            <div class="content">
-              <h2 class="title">02_foto</h2>
-              <p class="description">Espaço reservado para foto do projeto.</p>
-            </div>
-          </li>
-          <li class="item" style="background-image: url('')">
-            <span class="item-slot">03_foto</span>
-            <div class="content">
-              <h2 class="title">03_foto</h2>
-              <p class="description">Espaço reservado para foto do projeto.</p>
-            </div>
-          </li>
-          <li class="item" style="background-image: url('')">
-            <span class="item-slot">01_arte</span>
-            <div class="content">
-              <h2 class="title">01_arte</h2>
-              <p class="description">Espaço reservado para arte do projeto.</p>
-            </div>
-          </li>
-          <li class="item" style="background-image: url('')">
-            <span class="item-slot">02_arte</span>
-            <div class="content">
-              <h2 class="title">02_arte</h2>
-              <p class="description">Espaço reservado para arte do projeto.</p>
-            </div>
-          </li>
-          <li class="item" style="background-image: url('')">
-            <span class="item-slot">01_video</span>
-            <div class="content">
-              <h2 class="title">01_video</h2>
+              <h2 class="title">v1</h2>
               <p class="description">Espaço reservado para vídeo do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('')">
+            <span class="item-slot">v2</span>
+            <div class="content">
+              <h2 class="title">v2</h2>
+              <p class="description">Espaço reservado para vídeo do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('')">
+            <span class="item-slot">v3</span>
+            <div class="content">
+              <h2 class="title">v3</h2>
+              <p class="description">Espaço reservado para vídeo do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('')">
+            <span class="item-slot">f1</span>
+            <div class="content">
+              <h2 class="title">f1</h2>
+              <p class="description">Espaço reservado para foto do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('')">
+            <span class="item-slot">f2</span>
+            <div class="content">
+              <h2 class="title">f2</h2>
+              <p class="description">Espaço reservado para foto do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('')">
+            <span class="item-slot">f3</span>
+            <div class="content">
+              <h2 class="title">f3</h2>
+              <p class="description">Espaço reservado para foto do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('')">
+            <span class="item-slot">a1</span>
+            <div class="content">
+              <h2 class="title">a1</h2>
+              <p class="description">Espaço reservado para arte do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('')">
+            <span class="item-slot">a2</span>
+            <div class="content">
+              <h2 class="title">a2</h2>
+              <p class="description">Espaço reservado para arte do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('')">
+            <span class="item-slot">a3</span>
+            <div class="content">
+              <h2 class="title">a3</h2>
+              <p class="description">Espaço reservado para arte do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('')">
+            <span class="item-slot">ia1</span>
+            <div class="content">
+              <h2 class="title">ia1</h2>
+              <p class="description">Espaço reservado para material de IA do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('')">
+            <span class="item-slot">ia2</span>
+            <div class="content">
+              <h2 class="title">ia2</h2>
+              <p class="description">Espaço reservado para material de IA do projeto.</p>
             </div>
           </li>
         </ul>
