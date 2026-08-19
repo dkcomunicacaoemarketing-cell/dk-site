@@ -156,6 +156,7 @@
     --shadow-dark: #a3b1c6;
   }
   .scroll-wrapper { width: 100vw; height: 100vh; overflow: hidden; position: relative; margin-top: 0; }
+  @media (min-width: 821px) { .scroll-wrapper { margin-top: 6rem; } }
 
   /* Versão mobile do "Como a DK vai ajudar você" — sem scroll horizontal, confiável */
   .mobile-flow { display: none; padding: 2.5rem 1.25rem 0.5rem; max-width: 32rem; margin: 0 auto; }
@@ -820,7 +821,10 @@
       ease: "none",
       scrollTrigger: {
         trigger: "#scrollWrapper",
+        start: "top top+=80",
         pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
         scrub: 1,
         end: () => "+=" + scrollMax
       }
