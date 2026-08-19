@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DK Marketing Político | Comunicação Estratégica</title>
+<meta name="description" content="Comunicação e marketing político atento aos detalhes: pré-campanhas, campanhas eleitorais, mandatos e comunicação institucional." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root {
+    --bg: #f2f1ed;
+    --fg: #1a1a1a;
+    --muted: #6b6b6b;
+    --border: #dedcd6;
+    --card: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Archivo", sans-serif;
+    overflow-x: hidden;
+  }
+  .serif { font-family: "Instrument Serif", serif; }
+  .label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+  @media (min-width: 640px) { .h2 { font-size: 3rem; } }
+  .body-text {
+    font-family: "Instrument Serif", serif;
+    font-size: 1.15rem;
+    line-height: 1.6;
+  }
+  @media (min-width: 640px) { .body-text { font-size: 1.3rem; } }
+
+  /* Capa */
+  .capa {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .capa h1 {
+    font-size: 22vw;
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+  @media (min-width: 640px) { .capa h1 { font-size: 16vw; } }
+  .capa .sub {
+    margin-top: -0.5rem;
+    font-size: 3vw;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+  }
+  @media (min-width: 640px) { .capa .sub { font-size: 1rem; } }
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+  }
+  .scroll-hint .line { width: 1px; height: 2rem; background: rgba(0,0,0,0.25); }
+
+  /* Manifesto typewriter */
+  .manifesto-wrapper { height: 240vh; position: relative; }
+  .manifesto-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 1.5rem;
+  }
+  .manifesto-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+  }
+  @media (min-width: 640px) { .manifesto-inner { flex-direction: row; justify-content: space-between; } }
+  .manifesto-text {
+    font-family: "Instrument Serif", serif;
+    font-size: 1.4rem;
+    line-height: 1.45;
+    text-align: left;
+    letter-spacing: -0.01em;
+  }
+  @media (min-width: 640px) { .manifesto-text { font-size: 2.2rem; flex: 1; } }
+  .manifesto-photo {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 999px;
+    object-fit: cover;
+    object-position: top;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    flex-shrink: 0;
+  }
+  @media (min-width: 640px) { .manifesto-photo { width: 13rem; height: 13rem; } }
+  .caret { display: inline-block; width: 2px; height: 1em; background: currentColor; margin-left: 2px; vertical-align: middle; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Hero 2 */
+  .hero2 { border-top: 1px solid var(--border); padding: 6rem 0; }
+  .hero2-intro { max-width: 700px; margin: 0 auto; padding: 0 1.5rem; }
+  .hero2-boxes { max-width: 700px; margin: 3rem auto 0; padding: 0 1.5rem; display: flex; flex-direction: column; gap: 2.5rem; }
+  .hero2-boxes h3 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.01em; }
+  @media (min-width: 640px) { .hero2-boxes h3 { font-size: 1.6rem; } }
+  .hero2-boxes p { margin-top: 0.75rem; }
+
+  /* Diagrama GSAP */
+  :root {
+    --bgc: #e0e5ec;
+    --shadow-light: #ffffff;
+    --shadow-dark: #a3b1c6;
+  }
+  .scroll-wrapper { width: 100vw; height: 100vh; overflow: hidden; position: relative; margin-top: 3rem; }
+  .canvas { position: absolute; top: 50%; transform: translateY(-50%); width: 2500px; height: 1000px; }
+  .lines-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+  .line-path { stroke: var(--fg); stroke-width: 3; fill: none; stroke-linecap: round; }
+  .clay-element { position: absolute; transform: translate(-50%, -50%); z-index: 2; }
+  .connector-dot { width: 16px; height: 16px; background: var(--fg); border-radius: 50%; z-index: 3; }
+  .plus-btn {
+    width: 40px; height: 40px; background: var(--fg); color: #fff; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: bold; z-index: 4;
+  }
+  .flow-card-big {
+    width: 420px; border-radius: 28px; overflow: hidden;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+  }
+  .flow-card-solid { padding: 2rem; color: #fff; min-height: 260px; display: flex; flex-direction: column; justify-content: center; }
+  .flow-card-title-big { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; }
+  .flow-card-text { margin-top: 0.9rem; font-family: "Instrument Serif", serif; font-size: 1.05rem; line-height: 1.5; opacity: 0.92; }
+
+  /* Nav / Tabs */
+  nav.tabs {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(242,241,237,0.85); backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .tabs-inner {
+    max-width: 60rem; margin: 0 auto; display: flex; gap: 0.5rem;
+    overflow-x: auto; padding: 0.75rem 1rem; scrollbar-width: none;
+  }
+  .tabs-inner::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0; white-space: nowrap; border-radius: 999px; padding: 0.6rem 1.2rem;
+    font-size: 0.85rem; font-weight: 500; border: none; cursor: pointer;
+    background: #e5e3dd; color: var(--muted); transition: background 0.2s, color 0.2s;
+  }
+  .tab-btn.active { background: var(--fg); color: var(--bg); }
+
+  .tab-content { max-width: 60rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; display: none; }
+  .tab-content.active { display: block; }
+
+  .whatsapp-btn {
+    display: inline-flex; align-items: center; border-radius: 999px;
+    background: var(--fg); color: var(--bg); padding: 0.9rem 1.7rem;
+    font-size: 0.9rem; font-weight: 500; text-decoration: none; margin-top: 2.5rem;
+    transition: transform 0.2s;
+  }
+  .whatsapp-btn:hover { transform: scale(1.03); }
+
+  /* Módulos */
+  .modulos-grid { margin-top: 4rem; display: grid; gap: 3rem 2rem; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .modulos-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .modulos-grid { grid-template-columns: 1fr 1fr 1fr; } }
+  .modulo-item { text-align: center; }
+  .modulo-icon { width: 42px; height: 42px; margin: 0 auto 1.25rem; display: block; color: var(--fg); }
+  .modulo-item h3 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
+  @media (min-width: 640px) { .modulo-item h3 { font-size: 1.5rem; } }
+  .modulo-item p { margin-top: 0.75rem; font-size: 1rem; color: var(--muted); }
+  @media (min-width: 640px) { .modulo-item p { font-size: 1.1rem; } }
+
+  .diferenciais { margin-top: 4rem; border-top: 1px solid var(--border); padding-top: 2.5rem; }
+  .tags { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .tag { border-radius: 999px; background: #e5e3dd; padding: 0.6rem 1.2rem; font-size: 0.85rem; font-weight: 500; }
+
+  /* Portfólio */
+  .portfolio-slider-wrap { margin-top: 3rem; }
+  .portfolio-main {
+    position: relative; width: 100%; height: 70vh; max-height: 560px;
+    border-radius: 1.25rem; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  }
+  .slider { position: relative; width: 100%; height: 100%; list-style: none; }
+  .slider .item {
+    width: 160px; height: 240px; position: absolute; top: 50%; transform: translateY(-50%);
+    z-index: 1; background-position: center; background-size: cover; border-radius: 16px;
+    box-shadow: 0 15px 25px rgba(255,255,255,0.25) inset;
+    transition: transform 0.1s, left 1.5s, top 1.5s, width 1.5s, height 1.5s;
+  }
+  .slider .item:nth-child(1), .slider .item:nth-child(2) {
+    left: 0; top: 0; width: 100%; height: 100%; transform: none; border-radius: 0; box-shadow: none; opacity: 1;
+  }
+  .slider .item:nth-child(3) { left: 55%; }
+  .slider .item:nth-child(4) { left: calc(55% + 170px); }
+  .slider .item:nth-child(5) { left: calc(55% + 340px); }
+  .slider .item:nth-child(6) { left: calc(52% + 510px); opacity: 0; }
+  .slider .content {
+    width: min(35vw, 380px); position: absolute; top: 50%; left: 2.5rem; transform: translateY(-50%);
+    font-family: "Archivo", sans-serif; color: #fff; text-shadow: 0 3px 8px rgba(0,0,0,0.5);
+    opacity: 0; display: none;
+  }
+  .slider .content .title { font-weight: 800; text-transform: uppercase; font-size: 1.4rem; }
+  .slider .content .description { font-family: "Instrument Serif", serif; line-height: 1.6; margin-top: 0.75rem; font-size: 1rem; }
+  .slider .item:nth-of-type(2) .content { display: block; animation: portfolioShow 0.75s ease-in-out 0.3s forwards; }
+  @keyframes portfolioShow { 0% { filter: blur(5px); transform: translateY(calc(-50% + 60px)); } 100% { opacity: 1; filter: blur(0); } }
+  .portfolio-nav { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 5; display: flex; gap: 0.5rem; }
+  .portfolio-btn {
+    background: rgba(255,255,255,0.55); color: rgba(0,0,0,0.75); border: 2px solid rgba(0,0,0,0.55);
+    padding: 0.6rem 0.9rem; border-radius: 50%; cursor: pointer; font-size: 1rem;
+  }
+  .portfolio-btn:hover { background: rgba(255,255,255,0.35); }
+
+  /* Quem está à frente */
+  .quem-flex { margin-top: 2.5rem; display: flex; flex-direction: column; align-items: center; gap: 2.5rem; }
+  @media (min-width: 640px) { .quem-flex { flex-direction: row; align-items: flex-start; } }
+  .quem-photo { width: 12rem; height: 12rem; border-radius: 999px; object-fit: cover; object-position: top; box-shadow: 0 20px 40px rgba(0,0,0,0.15); flex-shrink: 0; }
+  @media (min-width: 640px) { .quem-photo { width: 14rem; height: 14rem; } }
+  .quem-text p + p { margin-top: 1.5rem; }
+
+  /* Contato */
+  .contato-grid { margin-top: 2.5rem; display: grid; gap: 2.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 768px) { .contato-grid { grid-template-columns: 1fr 1fr; } }
+  .contato-info p { font-size: 1rem; }
+  @media (min-width: 640px) { .contato-info p { font-size: 1.1rem; } }
+  .contato-info .muted { color: var(--muted); }
+  .contato-info a { color: var(--fg); text-decoration: underline; }
+  .footer-block { margin-top: 4rem; border-top: 1px solid var(--border); padding-top: 2rem; }
+  .footer-block .brand { font-family: "Archivo", sans-serif; font-size: 1.6rem; font-weight: 900; letter-spacing: -0.03em; }
+
+  /* DK IA — pill + modal */
+  .dkia-cta { display: flex; justify-content: center; padding: 0 1.5rem 6rem; }
+  .dkia-pill {
+    display: flex; align-items: center; gap: 0.75rem; width: 100%; max-width: 34rem;
+    background: var(--fg); color: var(--bg); border: none; border-radius: 999px;
+    padding: 0.5rem 0.5rem 0.5rem 1.5rem; cursor: pointer;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.18); transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .dkia-pill:hover { transform: scale(1.01); box-shadow: 0 20px 46px rgba(0,0,0,0.22); }
+  .dkia-pill span.dkia-label { flex: 1; text-align: left; font-size: 0.95rem; opacity: 0.9; }
+  .dkia-pill .dkia-arrow {
+    background: var(--bg); color: var(--fg); border-radius: 999px; width: 2.5rem; height: 2.5rem;
+    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; flex-shrink: 0;
+  }
+
+  .dkia-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(26,26,26,0.6); backdrop-filter: blur(4px);
+    align-items: flex-end; justify-content: center; padding: 0;
+  }
+  .dkia-overlay.open { display: flex; }
+  @media (min-width: 768px) { .dkia-overlay { align-items: center; padding: 1.5rem; } }
+
+  .dkia-modal {
+    background: var(--bg); width: 100%; max-width: 42rem; height: 85vh; max-height: 640px;
+    border-radius: 1.25rem 1.25rem 0 0; display: flex; flex-direction: column; overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+  }
+  @media (min-width: 768px) { .dkia-modal { border-radius: 1.25rem; height: 70vh; } }
+
+  .dkia-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 1.4rem; border-bottom: 1px solid var(--border);
+  }
+  .dkia-header .dkia-eyebrow { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.24em; color: var(--muted); font-weight: 700; }
+  .dkia-header .dkia-title { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em; margin-top: 0.15rem; }
+  .dkia-close {
+    width: 2.2rem; height: 2.2rem; border-radius: 999px; border: none; background: transparent;
+    color: var(--fg); font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .dkia-close:hover { background: var(--border); }
+
+  .dkia-messages { flex: 1; overflow-y: auto; padding: 1.5rem 1.4rem; display: flex; flex-direction: column; gap: 1rem; }
+  .dkia-msg { display: flex; }
+  .dkia-msg.user { justify-content: flex-end; }
+  .dkia-msg.assistant { justify-content: flex-start; }
+  .dkia-bubble {
+    max-width: 85%; padding: 0.85rem 1.1rem; border-radius: 1.1rem; font-size: 0.92rem; line-height: 1.55;
+    white-space: pre-wrap; font-family: "Archivo", sans-serif;
+  }
+  .dkia-msg.user .dkia-bubble { background: var(--fg); color: var(--bg); border-bottom-right-radius: 0.3rem; }
+  .dkia-msg.assistant .dkia-bubble { background: var(--card); border: 1px solid var(--border); border-bottom-left-radius: 0.3rem; }
+  .dkia-typing { color: var(--muted); font-size: 0.85rem; }
+
+  .dkia-composer { border-top: 1px solid var(--border); padding: 0.85rem; }
+  .dkia-composer-inner {
+    display: flex; align-items: flex-end; gap: 0.5rem;
+    background: var(--card); border: 1px solid var(--border); border-radius: 1.6rem; padding: 0.4rem 0.4rem 0.4rem 1.1rem;
+  }
+  .dkia-composer textarea {
+    flex: 1; resize: none; border: none; outline: none; background: transparent;
+    font-family: "Archivo", sans-serif; font-size: 0.92rem; color: var(--fg); padding: 0.55rem 0; max-height: 8rem;
+  }
+  .dkia-composer textarea::placeholder { color: var(--muted); }
+  .dkia-send {
+    width: 2.4rem; height: 2.4rem; border-radius: 999px; border: none; background: var(--fg); color: var(--bg);
+    font-weight: 700; font-size: 1.05rem; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.2s;
+  }
+  .dkia-send:disabled { opacity: 0.3; cursor: default; }
+  .dkia-hint { text-align: center; font-size: 0.68rem; color: var(--muted); margin-top: 0.6rem; }
+</style>
+</head>
+<body>
+
+  <!-- Capa -->
+  <section class="capa">
+    <h1>DK</h1>
+    <span class="sub">Marketing Político</span>
+    <div class="scroll-hint">
+      <span>Role para descer</span>
+      <span class="line"></span>
+    </div>
+  </section>
+
+  <!-- Manifesto (typewriter no scroll) -->
+  <div class="manifesto-wrapper" id="manifestoWrapper">
+    <div class="manifesto-sticky">
+      <div class="manifesto-inner">
+        <p class="manifesto-text" id="manifestoText"><span id="manifestoTyped"></span><span class="caret"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DK IA — pill de entrada, logo abaixo do manifesto -->
+  <div class="dkia-cta">
+    <button class="dkia-pill" id="dkiaOpenBtn" type="button">
+      <span class="dkia-label">Converse com a inteligência artificial da DK Marketing Político…</span>
+      <span class="dkia-arrow">→</span>
+    </button>
+  </div>
+
+  <!-- DK IA — modal de chat -->
+  <div class="dkia-overlay" id="dkiaOverlay">
+    <div class="dkia-modal" id="dkiaModal">
+      <div class="dkia-header">
+        <div>
+          <div class="dkia-eyebrow">DK Marketing Político</div>
+          <div class="dkia-title">Converse com a DK IA</div>
+        </div>
+        <button class="dkia-close" id="dkiaCloseBtn" aria-label="Fechar">×</button>
+      </div>
+      <div class="dkia-messages" id="dkiaMessages"></div>
+      <div class="dkia-composer">
+        <div class="dkia-composer-inner">
+          <textarea id="dkiaInput" rows="1" placeholder="Fale comigo"></textarea>
+          <button class="dkia-send" id="dkiaSendBtn" type="button" disabled>→</button>
+        </div>
+        <div class="dkia-hint">Enter para enviar · Shift+Enter para nova linha</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero 2 -->
+  <section class="hero2">
+    <div class="hero2-intro">
+      <p class="label">Como a DK vai te ajudar</p>
+      <h2 class="h2">COMO A DK VAI TE AJUDAR?</h2>
+    </div>
+
+    <div class="scroll-wrapper" id="scrollWrapper">
+      <div class="canvas" id="canvas">
+        <svg class="lines-layer" viewBox="0 0 2500 1000">
+          <path class="line-path" d="M 100 500 L 400 500" />
+          <path class="line-path" d="M 780 500 C 900 500, 950 320, 1080 320" />
+          <path class="line-path" d="M 780 500 C 900 500, 950 680, 1080 680" />
+        </svg>
+
+        <div class="clay-element connector-dot gs-reveal" style="left:100px; top:500px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:400px; top:500px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:780px; top:500px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:1080px; top:320px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:1080px; top:680px;"></div>
+
+        <div class="clay-element plus-btn gs-reveal" style="left:250px; top:500px;">+</div>
+        <div class="clay-element plus-btn gs-reveal" style="left:930px; top:400px;">+</div>
+        <div class="clay-element plus-btn gs-reveal" style="left:930px; top:600px;">+</div>
+
+        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:530px; top:500px;">
+          <div class="flow-card-solid" style="background:#2b2b2b;">
+            <h3 class="flow-card-title-big">Construindo posicionamento com direção clara</h3>
+            <p class="flow-card-text">A DK constrói o discurso, o conceito e o posicionamento de candidatos, mandatos e instituições, conectando quem governa ou disputa com o eleitor de forma direta e coerente. Cada projeto nasce de um diagnóstico real, não de fórmula pronta.</p>
+          </div>
+        </div>
+        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:1470px; top:320px;">
+          <div class="flow-card-solid" style="background:#2b2b2b;">
+            <h3 class="flow-card-title-big">Uma só equipe, do jornalismo à produção</h3>
+            <p class="flow-card-text">Com bagagem de jornalismo, publicidade, fotografia, administração e inteligência artificial dentro de casa, a DK entrega assessoria de imprensa, redes sociais, identidade visual, cobertura fotográfica, audiovisual e IA sob uma mesma direção, com coerência entre o que se fala, o que se mostra e o que se entrega.</p>
+          </div>
+        </div>
+        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:1470px; top:680px;">
+          <div class="flow-card-solid" style="background:#2b2b2b;">
+            <h3 class="flow-card-title-big">Acompanhando a campanha do início ao resultado</h3>
+            <p class="flow-card-text">Mais que produzir conteúdo, a DK acompanha a trajetória: planejamento, execução, ajuste de rota e resposta rápida em momentos de crise, pensando em cada entrega como parte de um caminho, não como peça avulsa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nav / Abas -->
+  <nav class="tabs">
+    <div class="tabs-inner" id="tabsInner">
+      <button class="tab-btn active" data-tab="inicio">Início</button>
+      <button class="tab-btn" data-tab="modulos">Módulos de atuação</button>
+      <button class="tab-btn" data-tab="portfolio">Portfólio</button>
+      <button class="tab-btn" data-tab="quem">Quem está à frente</button>
+      <button class="tab-btn" data-tab="contato">Contato</button>
+    </div>
+  </nav>
+
+  <!-- Início -->
+  <div class="tab-content active" id="tab-inicio">
+    <p class="label">DK Marketing Político</p>
+    <h2 class="h2">Comunicação e Marketing atento aos detalhes.</h2>
+    <p class="body-text" style="margin-top:2rem; max-width:40rem; color:var(--muted);">
+      Comunicação estratégica para pré-campanhas, campanhas eleitorais, mandatos e comunicação institucional.
+    </p>
+  </div>
+
+  <!-- Módulos de atuação -->
+  <div class="tab-content" id="tab-modulos">
+    <p class="label">Módulos de atuação</p>
+    <h2 class="h2">MÓDULOS DE ATUAÇÃO</h2>
+    <p class="body-text" style="margin-top:2rem; max-width:40rem; color:var(--muted);">
+      Comunicação integrada para cada fase da campanha. Cada projeto é construído sob medida, considerando o perfil do candidato, o território e o momento da disputa.
+    </p>
+    <div class="modulos-grid">
+      <div class="modulo-item">
+        <svg class="modulo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>
+        <h3>Estratégia da candidatura</h3>
+        <p>Antes de qualquer peça ir ao ar, a DK constrói a base da candidatura: usando algoritmos e inteligência artificial, produzimos um diagnóstico honesto do cenário, a definição do posicionamento que diferencia o candidato na disputa, a leitura de como o candidato é percebido hoje pelo eleitor e o plano que vai guiar toda a comunicação até o dia da eleição.</p>
+      </div>
+      <div class="modulo-item">
+        <svg class="modulo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-6.5-6.1-6.5-11A6.5 6.5 0 0 1 18.5 10c0 4.9-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.2"/></svg>
+        <h3>Território, público e mensagem</h3>
+        <p>Cada cidade elege de um jeito. Por isso mapeamos onde está o eleitorado decisivo, priorizamos os públicos que realmente movem o resultado e construímos a mensagem central que vai sustentar a campanha do início ao fim.</p>
+      </div>
+      <div class="modulo-item">
+        <svg class="modulo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9 18h6" stroke-linecap="round"/></svg>
+        <h3>Presença digital</h3>
+        <p>Do primeiro contato pelo WhatsApp à landing page que recebe o eleitor vindo de um anúncio, cuidamos de toda a estrutura digital da campanha: perfis padronizados, links próprios e gestão de tráfego pago com foco em resultado.</p>
+      </div>
+      <div class="modulo-item">
+        <svg class="modulo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="6" width="15" height="12" rx="2"/><path d="M17.5 10.5 22 7v10l-4.5-3.5Z"/><circle cx="8" cy="12" r="2.2"/></svg>
+        <h3>Imagem e conteúdo</h3>
+        <p>A imagem pública do candidato nasce aqui. Do ensaio fotográfico institucional ao vídeo de lançamento, passando pela identidade visual da campanha e pelos discursos que vão dar consistência a cada aparição, seja no palanque ou nas redes.</p>
+      </div>
+      <div class="modulo-item">
+        <svg class="modulo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 10v4a1 1 0 0 0 1 1h2l6 4V5L6 9H4a1 1 0 0 0-1 1Z" stroke-linejoin="round"/><path d="M17 8.5a4 4 0 0 1 0 7" stroke-linecap="round"/></svg>
+        <h3>Comunicação durante a campanha</h3>
+        <p>Com a campanha em curso, assumimos o ritmo diário: gestão das redes, produção contínua de conteúdo, cobertura fotográfica e audiovisual de agenda e um canal de atendimento por inteligência artificial que responde ao eleitor mesmo fora do expediente.</p>
+      </div>
+      <div class="modulo-item">
+        <svg class="modulo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 21h16M5 21V10l7-5 7 5v11M9 21v-6h6v6" stroke-linejoin="round"/></svg>
+        <h3>Comunicação institucional</h3>
+        <p>Eleito o candidato, a comunicação muda de fase, e a DK acompanha essa transição, estruturando a comunicação pública do mandato, a gestão das redes, o registro de agenda e a identidade visual que vai representar a gestão perante a população.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Portfólio -->
+  <div class="tab-content" id="tab-portfolio">
+    <p class="label">Portfólio</p>
+    <h2 class="h2">Projetos que traduzem estratégia em comunicação.</h2>
+    <p class="body-text" style="margin-top:2rem; max-width:40rem; color:var(--muted);">
+      Espaço destinado à apresentação de campanhas eleitorais, identidades visuais, materiais gráficos, produções audiovisuais, fotografias, sites e demais projetos desenvolvidos pela DK Marketing Político.
+    </p>
+    <div class="portfolio-slider-wrap">
+      <main class="portfolio-main">
+        <ul class="slider">
+          <li class="item" style="background-image: url('https://cdn.mos.cms.futurecdn.net/dP3N4qnEZ4tCTCLq59iysd.jpg')">
+            <div class="content">
+              <h2 class="title">Lossless Youths</h2>
+              <p class="description">Espaço reservado para descrição do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('https://i.redd.it/tc0aqpv92pn21.jpg')">
+            <div class="content">
+              <h2 class="title">Estrange Bond</h2>
+              <p class="description">Espaço reservado para descrição do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('https://wharferj.files.wordpress.com/2015/11/bio_north.jpg')">
+            <div class="content">
+              <h2 class="title">The Gate Keeper</h2>
+              <p class="description">Espaço reservado para descrição do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('https://images7.alphacoders.com/878/878663.jpg')">
+            <div class="content">
+              <h2 class="title">Last Trace Of Us</h2>
+              <p class="description">Espaço reservado para descrição do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('https://theawesomer.com/photos/2017/07/simon_stalenhag_the_electric_state_6.jpg')">
+            <div class="content">
+              <h2 class="title">Urban Decay</h2>
+              <p class="description">Espaço reservado para descrição do projeto.</p>
+            </div>
+          </li>
+          <li class="item" style="background-image: url('https://da.se/app/uploads/2015/09/simon-december1994.jpg')">
+            <div class="content">
+              <h2 class="title">The Migration</h2>
+              <p class="description">Espaço reservado para descrição do projeto.</p>
+            </div>
+          </li>
+        </ul>
+        <nav class="portfolio-nav">
+          <button class="portfolio-btn portfolio-prev" aria-label="Anterior">&#8592;</button>
+          <button class="portfolio-btn portfolio-next" aria-label="Próximo">&#8594;</button>
+        </nav>
+      </main>
+    </div>
+  </div>
+
+  <!-- Quem está à frente -->
+  <div class="tab-content" id="tab-quem">
+    <p class="label">Quem está à frente</p>
+    <h2 class="h2">Comunicação estratégica construída com experiência, planejamento e atenção aos detalhes.</h2>
+    <div class="quem-flex">
+      <img class="quem-photo" src="/images/daniel-costa.jpg" alt="Daniel Costa" />
+      <div class="quem-text">
+        <p class="body-text">À frente da DK Marketing Político está Daniel Kauan dos Santos Costa, bacharel em Jornalismo, Publicidade e Propaganda e Fotografia, e pós-graduado em Gestão e Desenvolvimento.</p>
+        <p class="body-text">Sua trajetória começou aos 17 anos, quando deixou o Rio Grande do Sul para estudar em Santa Catarina. Ainda na graduação, ingressou na assessoria de comunicação da Prefeitura de Lages (SC), onde desenvolveu uma visão ampla da comunicação pública e institucional. Ao longo da carreira, especializou-se em comunicação pública, partidária e campanhas eleitorais, da produção de conteúdo à coordenação estratégica.</p>
+        <p class="body-text">Mais do que produzir materiais, a DK acredita que os resultados estão nos detalhes.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contato -->
+  <div class="tab-content" id="tab-contato">
+    <p class="label">Contato</p>
+    <h2 class="h2">Vamos construir uma comunicação política forte, estratégica e conectada com as pessoas?</h2>
+    <div class="contato-grid">
+      <p class="body-text">Entre em contato e conheça as soluções desenvolvidas pela DK Marketing Político para pré-campanhas, campanhas eleitorais, mandatos e comunicação institucional.</p>
+      <div class="contato-info">
+        <p style="font-weight:500;">Daniel Kauan dos Santos Costa</p>
+        <p class="muted">Jornalista | Publicitário | Fotógrafo</p>
+        <p class="muted">DRT 6123/SC | DRT 0412/SC</p>
+        <p><a href="tel:+5551981809645">(51) 98180-9645</a></p>
+        <p><a href="mailto:danielcosta.jornalista@gmail.com">danielcosta.jornalista@gmail.com</a></p>
+        <a class="whatsapp-btn" href="https://wa.me/5551981809645">Solicite uma proposta</a>
+      </div>
+    </div>
+    <div class="footer-block">
+      <p class="brand">DK Marketing Político</p>
+      <p class="body-text" style="margin-top:0.5rem; color:var(--muted);">Assessoria de Comunicação e Marketing atenta aos detalhes.</p>
+      <p style="margin-top:0.75rem; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.22em; color:var(--muted);">Planejamento • Estratégia • Comunicação • Marketing Político</p>
+      <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--muted);">© Todos os direitos reservados.</p>
+    </div>
+  </div>
+
+<script>
+  // ---------- Tabs ----------
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      document.querySelector('nav.tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // ---------- Manifesto typewriter no scroll ----------
+  const MANIFESTO = "Idealizado por Daniel Costa, jornalista, publicitário e fotógrafo. A DK planeja, constrói e executa estratégias de comunicação para candidatos, lideranças, mandatos e instituições. Acreditamos que a comunicação é um processo atento aos detalhes. Cada etapa prepara a próxima.";
+  const manifestoTyped = document.getElementById('manifestoTyped');
+  const manifestoWrapper = document.getElementById('manifestoWrapper');
+
+  function updateManifesto() {
+    const rect = manifestoWrapper.getBoundingClientRect();
+    const total = rect.height - window.innerHeight;
+    const progress = total > 0 ? (-rect.top) / total : 0;
+    const eased = Math.min(Math.max(progress / 0.95, 0), 1);
+    const count = Math.max(12, Math.round(eased * MANIFESTO.length));
+    manifestoTyped.textContent = MANIFESTO.slice(0, count);
+  }
+  let manifestoFrame = null;
+  window.addEventListener('scroll', () => {
+    if (!manifestoFrame) manifestoFrame = requestAnimationFrame(() => { updateManifesto(); manifestoFrame = null; });
+  }, { passive: true });
+  window.addEventListener('resize', updateManifesto);
+  updateManifesto();
+
+  // ---------- Portfólio: carrossel empilhado ----------
+  const portfolioSlider = document.querySelector('.slider');
+  if (portfolioSlider) {
+    document.querySelector('.portfolio-next').addEventListener('click', () => {
+      const items = portfolioSlider.querySelectorAll('.item');
+      portfolioSlider.append(items[0]);
+    });
+    document.querySelector('.portfolio-prev').addEventListener('click', () => {
+      const items = portfolioSlider.querySelectorAll('.item');
+      portfolioSlider.prepend(items[items.length - 1]);
+    });
+  }
+
+  // ---------- TypeOnView: aplica efeito de digitação quando elemento entra na tela ----------
+  function setupTypeOnView(el) {
+    const fullText = el.textContent;
+    el.textContent = '';
+    const span = document.createElement('span');
+    el.appendChild(span);
+    let started = false;
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !started) {
+        started = true;
+        let i = 0;
+        const speed = 18;
+        const id = setInterval(() => {
+          i++;
+          span.textContent = fullText.slice(0, i);
+          if (i >= fullText.length) clearInterval(id);
+        }, speed);
+        io.disconnect();
+      }
+    }, { threshold: 0.15 });
+    io.observe(el);
+  }
+  document.querySelectorAll('.modulo-item h3, .modulo-item p, .quem-text p').forEach(setupTypeOnView);
+
+  // ---------- GSAP Hero2 diagram ----------
+  gsap.registerPlugin(ScrollTrigger);
+
+  const canvas = document.getElementById('canvas');
+  if (canvas) {
+    let scrollMax = canvas.scrollWidth - window.innerWidth + 200;
+
+    const horizontalTween = gsap.to(canvas, {
+      x: -scrollMax,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#scrollWrapper",
+        pin: true,
+        scrub: 1,
+        end: () => "+=" + scrollMax
+      }
+    });
+
+    const paths = document.querySelectorAll(".line-path");
+    paths.forEach((path) => {
+      const length = path.getTotalLength();
+      gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+      gsap.to(path, {
+        strokeDashoffset: 0,
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: path,
+          containerAnimation: horizontalTween,
+          start: "left right-=200",
+          end: "right center",
+          scrub: true
+        }
+      });
+    });
+
+    const revealElements = document.querySelectorAll(".gs-reveal");
+    revealElements.forEach((el) => {
+      gsap.from(el, {
+        scale: 0,
+        opacity: 0,
+        rotation: el.classList.contains("plus-btn") ? -90 : 0,
+        duration: 0.8,
+        ease: "back.out(1.4)",
+        scrollTrigger: {
+          trigger: el,
+          containerAnimation: horizontalTween,
+          start: "left right-=150",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+  }
+
+  // ---------- DK IA: chat widget ----------
+  (function () {
+    const openBtn = document.getElementById('dkiaOpenBtn');
+    const closeBtn = document.getElementById('dkiaCloseBtn');
+    const overlay = document.getElementById('dkiaOverlay');
+    const messagesEl = document.getElementById('dkiaMessages');
+    const input = document.getElementById('dkiaInput');
+    const sendBtn = document.getElementById('dkiaSendBtn');
+
+    let history = [];
+    let loading = false;
+    let opened = false;
+
+    function addBubble(role, content) {
+      const row = document.createElement('div');
+      row.className = 'dkia-msg ' + role;
+      const bubble = document.createElement('div');
+      bubble.className = 'dkia-bubble';
+      bubble.textContent = content;
+      row.appendChild(bubble);
+      messagesEl.appendChild(row);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      return row;
+    }
+
+    function setLoading(state) {
+      loading = state;
+      sendBtn.disabled = loading || !input.value.trim();
+      let typingRow = document.getElementById('dkiaTypingRow');
+      if (loading && !typingRow) {
+        typingRow = document.createElement('div');
+        typingRow.id = 'dkiaTypingRow';
+        typingRow.className = 'dkia-msg assistant';
+        typingRow.innerHTML = '<div class="dkia-bubble dkia-typing">Pensando…</div>';
+        messagesEl.appendChild(typingRow);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      } else if (!loading && typingRow) {
+        typingRow.remove();
+      }
+    }
+
+    function openModal() {
+      overlay.classList.add('open');
+      if (!opened) {
+        opened = true;
+        addBubble('assistant', 'Olá! Sou a DK IA. Como posso te ajudar?');
+      }
+      setTimeout(() => input.focus(), 50);
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+    }
+
+    async function submit() {
+      const text = input.value.trim();
+      if (!text || loading) return;
+      addBubble('user', text);
+      history.push({ role: 'user', content: text });
+      input.value = '';
+      input.style.height = 'auto';
+      sendBtn.disabled = true;
+      setLoading(true);
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: history })
+        });
+        if (!res.ok) throw new Error('bad_response');
+        const data = await res.json();
+        const reply = data.content || 'Desculpe, não consegui responder agora.';
+        setLoading(false);
+        addBubble('assistant', reply);
+        history.push({ role: 'assistant', content: reply });
+      } catch (err) {
+        setLoading(false);
+        addBubble('assistant', 'Desculpe, tive um problema para responder agora. Tente novamente em instantes.');
+        console.error(err);
+      }
+    }
+
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+
+    input.addEventListener('input', () => {
+      input.style.height = 'auto';
+      input.style.height = Math.min(input.scrollHeight, 128) + 'px';
+      sendBtn.disabled = loading || !input.value.trim();
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        submit();
+      }
+    });
+    sendBtn.addEventListener('click', submit);
+  })();
+</script>
+</body>
+</html>
