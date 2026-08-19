@@ -154,8 +154,8 @@
     --shadow-light: #ffffff;
     --shadow-dark: #a3b1c6;
   }
-  .scroll-wrapper { width: 100vw; height: 100vh; overflow: hidden; position: relative; margin-top: -2rem; }
-  .canvas { position: absolute; top: 50%; transform: translateY(-50%); width: 2100px; height: 1000px; }
+  .scroll-wrapper { width: 100vw; height: 100vh; overflow: hidden; position: relative; margin-top: 0; }
+  .canvas { position: absolute; top: 50%; transform: translateY(-50%); width: 1850px; height: 800px; }
   .lines-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
   .line-path { stroke: var(--fg); stroke-width: 3; fill: none; stroke-linecap: round; }
   .clay-element { position: absolute; transform: translate(-50%, -50%); z-index: 2; }
@@ -165,12 +165,12 @@
     display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: bold; z-index: 4;
   }
   .flow-card-big {
-    width: 420px; border-radius: 28px; overflow: hidden;
+    width: 340px; border-radius: 24px; overflow: hidden;
     box-shadow: 0 16px 40px rgba(0,0,0,0.18);
   }
-  .flow-card-solid { padding: 2rem; color: #fff; min-height: 260px; display: flex; flex-direction: column; justify-content: center; }
-  .flow-card-title-big { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; }
-  .flow-card-text { margin-top: 0.9rem; font-family: "Instrument Serif", serif; font-size: 1.05rem; line-height: 1.5; opacity: 0.92; }
+  .flow-card-solid { padding: 1.5rem; color: #fff; min-height: 180px; display: flex; flex-direction: column; justify-content: center; }
+  .flow-card-title-big { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.22; }
+  .flow-card-text { margin-top: 0.6rem; font-family: "Instrument Serif", serif; font-size: 0.92rem; line-height: 1.45; opacity: 0.92; }
 
   /* Nav / Tabs */
   nav.tabs {
@@ -448,38 +448,40 @@
 
     <div class="scroll-wrapper" id="scrollWrapper">
       <div class="canvas" id="canvas">
-        <svg class="lines-layer" viewBox="0 0 2100 1000">
-          <path class="line-path" d="M 250 500 L 550 500" />
-          <path class="line-path" d="M 930 500 C 1050 500, 1100 320, 1230 320" />
-          <path class="line-path" d="M 930 500 C 1050 500, 1100 680, 1230 680" />
+        <svg class="lines-layer" viewBox="0 0 1850 800">
+          <path class="line-path" d="M 430 400 L 710 400" />
+          <path class="line-path" d="M 1110 400 C 1230 400, 1270 300, 1390 300" />
+          <path class="line-path" d="M 1110 400 C 1230 400, 1270 500, 1390 500" />
+          <path class="line-path" d="M 1390 300 L 1400 300" />
+          <path class="line-path" d="M 1390 500 L 1400 500" />
         </svg>
 
-        <div class="clay-element connector-dot gs-reveal" style="left:250px; top:500px;"></div>
-        <div class="clay-element connector-dot gs-reveal" style="left:550px; top:500px;"></div>
-        <div class="clay-element connector-dot gs-reveal" style="left:930px; top:500px;"></div>
-        <div class="clay-element connector-dot gs-reveal" style="left:1230px; top:320px;"></div>
-        <div class="clay-element connector-dot gs-reveal" style="left:1230px; top:680px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:430px; top:400px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:710px; top:400px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:1110px; top:400px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:1390px; top:300px;"></div>
+        <div class="clay-element connector-dot gs-reveal" style="left:1390px; top:500px;"></div>
 
-        <div class="clay-element plus-btn gs-reveal" style="left:400px; top:500px;">+</div>
-        <div class="clay-element plus-btn gs-reveal" style="left:1080px; top:400px;">+</div>
-        <div class="clay-element plus-btn gs-reveal" style="left:1080px; top:600px;">+</div>
+        <div class="clay-element plus-btn gs-reveal" style="left:570px; top:400px;">+</div>
+        <div class="clay-element plus-btn gs-reveal" style="left:1250px; top:350px;">+</div>
+        <div class="clay-element plus-btn gs-reveal" style="left:1250px; top:450px;">+</div>
 
-        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:680px; top:500px;">
+        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:910px; top:400px;">
           <div class="flow-card-solid" style="background:#2b2b2b;">
-            <h3 class="flow-card-title-big">Construindo posicionamento com direção clara</h3>
-            <p class="flow-card-text">A DK constrói o discurso, o conceito e o posicionamento de candidatos, mandatos e instituições, conectando quem governa ou disputa com o eleitor de forma direta e coerente. Cada projeto nasce de um diagnóstico real, não de fórmula pronta.</p>
+            <h3 class="flow-card-title-big tw">Construindo posicionamento com direção clara</h3>
+            <p class="flow-card-text tw">A DK constrói o discurso, o conceito e o posicionamento de candidatos, mandatos e instituições, conectando quem governa ou disputa com o eleitor de forma direta e coerente. Cada projeto nasce de um diagnóstico real, não de fórmula pronta.</p>
           </div>
         </div>
-        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:1620px; top:320px;">
+        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:1570px; top:300px;">
           <div class="flow-card-solid" style="background:#2b2b2b;">
-            <h3 class="flow-card-title-big">Uma só equipe, do jornalismo à produção</h3>
-            <p class="flow-card-text">Com bagagem de jornalismo, publicidade, fotografia, administração e inteligência artificial dentro de casa, a DK entrega assessoria de imprensa, redes sociais, identidade visual, cobertura fotográfica, audiovisual e IA sob uma mesma direção, com coerência entre o que se fala, o que se mostra e o que se entrega.</p>
+            <h3 class="flow-card-title-big tw">Uma só equipe, do jornalismo à produção</h3>
+            <p class="flow-card-text tw">Com bagagem de jornalismo, publicidade, fotografia, administração e inteligência artificial dentro de casa, a DK entrega assessoria de imprensa, redes sociais, identidade visual, cobertura fotográfica, audiovisual e IA sob uma mesma direção, com coerência entre o que se fala, o que se mostra e o que se entrega.</p>
           </div>
         </div>
-        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:1620px; top:680px;">
+        <div class="clay-element flow-card flow-card-big gs-reveal" style="left:1570px; top:500px;">
           <div class="flow-card-solid" style="background:#2b2b2b;">
-            <h3 class="flow-card-title-big">Acompanhando a campanha do início ao resultado</h3>
-            <p class="flow-card-text">Mais que produzir conteúdo, a DK acompanha a trajetória: planejamento, execução, ajuste de rota e resposta rápida em momentos de crise, pensando em cada entrega como parte de um caminho, não como peça avulsa.</p>
+            <h3 class="flow-card-title-big tw">Acompanhando a campanha do início ao resultado</h3>
+            <p class="flow-card-text tw">Mais que produzir conteúdo, a DK acompanha a trajetória: planejamento, execução, ajuste de rota e resposta rápida em momentos de crise, pensando em cada entrega como parte de um caminho, não como peça avulsa.</p>
           </div>
         </div>
       </div>
@@ -703,7 +705,7 @@
 
   const canvas = document.getElementById('canvas');
   if (canvas) {
-    let scrollMax = canvas.scrollWidth - window.innerWidth + 200;
+    let scrollMax = canvas.scrollWidth - window.innerWidth + 60;
 
     const horizontalTween = gsap.to(canvas, {
       x: -scrollMax,
