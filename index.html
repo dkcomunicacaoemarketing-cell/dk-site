@@ -65,21 +65,26 @@
     justify-content: center;
     text-align: center;
   }
+  .capa-logo { display: inline-block; text-align: center; }
   .capa h1 {
-    font-size: 22vw;
+    font-size: 24vw;
     font-weight: 900;
     line-height: 0.9;
     letter-spacing: -0.04em;
   }
-  @media (min-width: 640px) { .capa h1 { font-size: 16vw; } }
+  @media (min-width: 640px) { .capa h1 { font-size: 19vw; } }
   .capa .sub {
-    margin-top: -0.5rem;
-    font-size: 3.4vw;
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.38em;
+    text-align: justify;
+    text-align-last: justify;
+    text-justify: inter-character;
   }
-  @media (min-width: 640px) { .capa .sub { font-size: 1.7vw; letter-spacing: 0.5em; } }
+  @media (min-width: 640px) { .capa .sub { font-size: 1.15rem; } }
   .scroll-hint {
     position: absolute;
     bottom: 2.5rem;
@@ -150,7 +155,7 @@
     --shadow-dark: #a3b1c6;
   }
   .scroll-wrapper { width: 100vw; height: 100vh; overflow: hidden; position: relative; margin-top: -2rem; }
-  .canvas { position: absolute; top: 50%; transform: translateY(-50%); width: 2300px; height: 1000px; }
+  .canvas { position: absolute; top: 50%; transform: translateY(-50%); width: 2600px; height: 1000px; }
   .lines-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
   .line-path { stroke: var(--fg); stroke-width: 3; fill: none; stroke-linecap: round; }
   .clay-element { position: absolute; transform: translate(-50%, -50%); z-index: 2; }
@@ -191,8 +196,8 @@
 
   .whatsapp-btn {
     display: inline-flex; align-items: center; border-radius: 999px;
-    background: var(--fg); color: var(--bg); padding: 0.9rem 1.7rem;
-    font-size: 0.9rem; font-weight: 500; text-decoration: none; margin-top: 2.5rem;
+    background: #25D366; color: #ffffff; padding: 0.9rem 1.7rem;
+    font-size: 0.9rem; font-weight: 600; text-decoration: none; margin-top: 2.5rem;
     transition: transform 0.2s;
   }
   .whatsapp-btn:hover { transform: scale(1.03); }
@@ -349,14 +354,16 @@
     border-bottom: 1px solid var(--border);
   }
   .topnav-inner {
-    max-width: 60rem; margin: 0 auto; display: flex; align-items: center; gap: 0.35rem;
+    max-width: 60rem; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 0.35rem;
     overflow-x: auto; padding: 0.85rem 1.25rem; scrollbar-width: none;
+    flex-wrap: wrap;
   }
   .topnav-inner::-webkit-scrollbar { display: none; }
-  .topnav-brand { flex-shrink: 0; font-weight: 900; font-size: 0.95rem; letter-spacing: -0.02em; color: var(--fg); text-decoration: none; padding: 0.55rem 0.9rem 0.55rem 0; margin-right: 0.25rem; }
+  .topnav-brand { flex-shrink: 0; font-weight: 900; font-size: 0.95rem; letter-spacing: -0.02em; color: var(--fg); text-decoration: none; padding: 0.55rem 0.9rem; text-transform: uppercase; }
   .topnav-link {
     flex-shrink: 0; white-space: nowrap; border-radius: 999px; padding: 0.55rem 1.1rem;
-    font-size: 0.82rem; font-weight: 500; color: var(--muted); text-decoration: none;
+    font-size: 0.78rem; font-weight: 500; color: var(--muted); text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.02em;
     transition: background 0.2s, color 0.2s;
   }
   .topnav-link:hover, .topnav-link:focus { background: #e5e3dd; color: var(--fg); }
@@ -378,8 +385,10 @@
 
   <!-- Capa -->
   <section class="capa" id="top">
-    <h1>DK</h1>
-    <span class="sub">Marketing Político</span>
+    <div class="capa-logo">
+      <h1>DK</h1>
+      <span class="sub">Marketing Político</span>
+    </div>
     <div class="scroll-hint">
       <span>Role para descer</span>
       <span class="line"></span>
@@ -427,7 +436,7 @@
   <!-- Hero 2 -->
   <section class="hero2">
     <div class="hero2-intro" style="text-align:center; max-width:60rem;">
-      <h2 class="h2" style="white-space:nowrap; font-size:clamp(1.5rem, 5vw, 3rem);">COMO A DK VAI AJUDAR VOCÊ</h2>
+      <h2 class="h2type" style="white-space:nowrap; font-size:clamp(1.5rem, 5vw, 3rem);">COMO A DK VAI AJUDAR VOCÊ</h2>
     </div>
 
     <div class="scroll-wrapper" id="scrollWrapper">
@@ -476,7 +485,7 @@
   <div class="page-section" id="modulos">
     <div style="text-align:center;">
       <h2 class="h2type">MÓDULOS DE ATUAÇÃO</h2>
-      <p class="body-text" style="margin-top:2rem; max-width:40rem; color:var(--muted); margin-left:auto; margin-right:auto;">
+      <p class="body-text tw" style="margin-top:2rem; max-width:40rem; color:var(--muted); margin-left:auto; margin-right:auto;">
         Comunicação integrada para cada fase da campanha. Cada projeto é construído sob medida, considerando o perfil do candidato, o território e o momento da disputa.
       </p>
     </div>
@@ -517,7 +526,7 @@
   <!-- Portfólio -->
   <div class="page-section" id="portfolio" style="text-align:center;">
     <h2 class="h2type">PROJETOS QUE TRADUZEM ESTRATÉGIA EM COMUNICAÇÃO</h2>
-    <p class="body-text" style="margin-top:1.5rem; max-width:40rem; color:var(--muted); margin-left:auto; margin-right:auto;">
+    <p class="body-text tw" style="margin-top:1.5rem; max-width:40rem; color:var(--muted); margin-left:auto; margin-right:auto;">
       Conheça alguns dos produtos que produzimos dentro da DK Marketing Político.
     </p>
 
@@ -598,7 +607,7 @@
   <div class="page-section" id="contato">
     <h2 class="h2type" style="text-align:center;">VAMOS CONSTRUIR UMA COMUNICAÇÃO POLÍTICA FORTE, ESTRATÉGICA E CONECTADA COM AS PESSOAS?</h2>
     <div class="contato-grid">
-      <p class="body-text" style="text-align:center;">Entre em contato e conheça as soluções desenvolvidas pela DK Marketing Político para pré-campanhas, campanhas eleitorais, mandatos e comunicação institucional.</p>
+      <p class="body-text tw" style="text-align:center;">Entre em contato e conheça as soluções desenvolvidas pela DK Marketing Político para pré-campanhas, campanhas eleitorais, mandatos e comunicação institucional.</p>
       <div class="contato-info">
         <p style="font-weight:500;">Daniel Kauan dos Santos Costa</p>
         <p class="muted">Jornalista | Publicitário | Fotógrafo</p>
@@ -653,32 +662,36 @@
     });
   }
 
-  // ---------- TypeOnView: aplica efeito de digitação toda vez que o elemento entra na tela ----------
-  function setupTypeOnView(el) {
+  // ---------- Scroll Typewriter: revela o texto proporcionalmente à posição do scroll ----------
+  // Mesmo princípio do manifesto: progresso = posição do elemento na tela, sem timers.
+  const scrollTypewriters = [];
+  function setupScrollTypewriter(el) {
     const fullText = el.textContent;
     el.textContent = '';
     const span = document.createElement('span');
     el.appendChild(span);
-    let typingInterval = null;
-    const io = new IntersectionObserver((entries) => {
-      const entering = entries[0].isIntersecting;
-      if (typingInterval) { clearInterval(typingInterval); typingInterval = null; }
-      if (entering) {
-        span.textContent = '';
-        let i = 0;
-        const speed = 18;
-        typingInterval = setInterval(() => {
-          i++;
-          span.textContent = fullText.slice(0, i);
-          if (i >= fullText.length) { clearInterval(typingInterval); typingInterval = null; }
-        }, speed);
-      } else {
-        span.textContent = '';
-      }
-    }, { threshold: 0.15 });
-    io.observe(el);
+    scrollTypewriters.push({ el, span, fullText });
   }
-  document.querySelectorAll('.modulo-item h3, .modulo-item p, .quem-text p, .h2type').forEach(setupTypeOnView);
+  document.querySelectorAll('.modulo-item h3, .modulo-item p, .quem-text p, .h2type, .tw').forEach(setupScrollTypewriter);
+
+  function updateScrollTypewriters() {
+    const vh = window.innerHeight;
+    const start = vh * 0.92;
+    const end = vh * 0.35;
+    scrollTypewriters.forEach(({ span, fullText, el }) => {
+      const rect = el.getBoundingClientRect();
+      let progress = (start - rect.top) / (start - end);
+      progress = Math.min(Math.max(progress, 0), 1);
+      const count = Math.round(progress * fullText.length);
+      span.textContent = fullText.slice(0, count);
+    });
+  }
+  let scrollTypeFrame = null;
+  window.addEventListener('scroll', () => {
+    if (!scrollTypeFrame) scrollTypeFrame = requestAnimationFrame(() => { updateScrollTypewriters(); scrollTypeFrame = null; });
+  }, { passive: true });
+  window.addEventListener('resize', updateScrollTypewriters);
+  updateScrollTypewriters();
 
   // ---------- GSAP Hero2 diagram ----------
   gsap.registerPlugin(ScrollTrigger);
@@ -717,6 +730,7 @@
 
     const revealElements = document.querySelectorAll(".gs-reveal");
     revealElements.forEach((el) => {
+      const isBigCard = el.classList.contains("flow-card-big");
       gsap.from(el, {
         scale: 0,
         opacity: 0,
@@ -726,7 +740,7 @@
         scrollTrigger: {
           trigger: el,
           containerAnimation: horizontalTween,
-          start: "left right-=150",
+          start: isBigCard ? "left right-=460" : "left right-=150",
           toggleActions: "play none none reverse"
         }
       });
