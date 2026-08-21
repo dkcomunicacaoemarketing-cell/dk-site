@@ -1004,15 +1004,29 @@
     let loading = false;
     let opened = false;
 
-    function addBubble(role, content) {
+    function addBubble(role, content, animate) {
       const row = document.createElement('div');
       row.className = 'dkia-msg ' + role;
       const bubble = document.createElement('div');
       bubble.className = 'dkia-bubble';
-      bubble.textContent = content;
       row.appendChild(bubble);
       messagesEl.appendChild(row);
       messagesEl.scrollTop = messagesEl.scrollHeight;
+
+      if (!animate) {
+        bubble.textContent = content;
+        return row;
+      }
+
+      let i = 0;
+      const speed = 14; // ms por caractere
+      const timer = setInterval(() => {
+        i++;
+        bubble.textContent = content.slice(0, i);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        if (i >= content.length) clearInterval(timer);
+      }, speed);
+
       return row;
     }
 
@@ -1036,7 +1050,7 @@
       overlay.classList.add('open');
       if (!opened) {
         opened = true;
-        addBubble('assistant', 'Olá! Sou a DK IA. Como posso te ajudar?');
+        addBubble('assistant', 'Oi, tudo bem? Sou a DK IA. Antes de começarmos, como posso te chamar?', true);
       }
       setTimeout(() => input.focus(), 50);
     }
@@ -1048,7 +1062,7 @@
     async function submit() {
       const text = input.value.trim();
       if (!text || loading) return;
-      addBubble('user', text);
+      addBubble('user', text, false);
       history.push({ role: 'user', content: text });
       input.value = '';
       input.style.height = 'auto';
@@ -1065,11 +1079,11 @@
         const data = await res.json();
         const reply = data.content || 'Desculpe, não consegui responder agora.';
         setLoading(false);
-        addBubble('assistant', reply);
+        addBubble('assistant', reply, true);
         history.push({ role: 'assistant', content: reply });
       } catch (err) {
         setLoading(false);
-        addBubble('assistant', 'Desculpe, tive um problema para responder agora. Tente novamente em instantes.');
+        addBubble('assistant', 'Desculpe, tive um problema para responder agora. Tente novamente em instantes.', true);
         console.error(err);
       }
     }
