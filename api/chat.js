@@ -152,7 +152,7 @@ async function enviarEmailParaDaniel(lead) {
 
   const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
-  const statusOrcamento = lead.pediuOrcamento ? "🔥 PEDIU ORÇAMENTO" : "Acompanhando conversa";
+  const statusOrcamento = lead.pediuOrcamento ? "🔥 PEDIU ORÇAMENTO" : "Conversa encerrada";
   const assunto = `[Chat DK] ${lead.nome || "Visitante"} — ${lead.interesse} — ${statusOrcamento}`;
 
   const html = `
@@ -163,10 +163,10 @@ async function enviarEmailParaDaniel(lead) {
       <p><strong>Interesse identificado:</strong> ${escaparHtml(lead.interesse)}</p>
       <p><strong>Status:</strong> ${escaparHtml(statusOrcamento)}</p>
       <hr>
-      <h3>Resumo da conversa até agora</h3>
+      <h3>Resumo da conversa</h3>
       <p style="white-space:pre-wrap">${escaparHtml(lead.resumo)}</p>
       <hr>
-      <p style="font-size:12px;color:#888">Enviado automaticamente pela DK IA a cada troca de mensagem, para acompanhamento interno.</p>
+      <p style="font-size:12px;color:#888">Enviado automaticamente pela DK IA ao final da conversa.</p>
     </div>
   `;
 
@@ -195,7 +195,7 @@ async function enviarEmailParaDaniel(lead) {
       return false;
     }
 
-    console.log("Resumo enviado para Daniel.");
+    console.log("Resumo final enviado para Daniel.");
     return true;
   } catch (erro) {
     console.error("Erro no envio do e-mail:", erro);
@@ -206,14 +206,6 @@ async function enviarEmailParaDaniel(lead) {
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "method_not_allowed" });
-    return;
-  }
-
-  const apiKey = process.env.OPENROUTER_API_KEY;
-
-  if (!apiKey) {
-    console.error("OPENROUTER_API_KEY não configurada no ambiente do Vercel.");
-    res.status(500).json({ error: "server_misconfigured" });
     return;
   }
 
@@ -253,6 +245,41 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  // Modo "finalizar": não chama a IA, só manda o resumo pro Daniel e encerra.
+  if (body.finalizar === true) {
+    const totalMensagens = safeMessages.filter((m) => m.role === "user").length;
+
+    if (totalMensagens === 0) {
+      res.status(200).json({ ok: true, skipped: true });
+      return;
+    }
+
+    const email = extrairEmail(safeMessages);
+    const nome = extrairNome(safeMessages);
+    const interesse = identificarInteresse(safeMessages);
+    const orcamento = pediuOrcamento(safeMessages);
+
+    const emailSent = await enviarEmailParaDaniel({
+      nome,
+      email,
+      interesse,
+      pediuOrcamento: orcamento,
+      resumo: criarResumo(safeMessages),
+    });
+
+    res.status(200).json({ ok: true, emailSent });
+    return;
+  }
+
+  // Modo normal: conversa com a IA.
+  const apiKey = process.env.OPENROUTER_API_KEY;
+
+  if (!apiKey) {
+    console.error("OPENROUTER_API_KEY não configurada no ambiente do Vercel.");
+    res.status(500).json({ error: "server_misconfigured" });
+    return;
+  }
+
   try {
     const upstream = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -280,30 +307,7 @@ module.exports = async function handler(req, res) {
     const data = await upstream.json();
     const content = data.choices?.[0]?.message?.content ?? "";
 
-    const email = extrairEmail(safeMessages);
-    const nome = extrairNome(safeMessages);
-    const interesse = identificarInteresse(safeMessages);
-    const orcamento = pediuOrcamento(safeMessages);
-    const totalMensagens = safeMessages.filter((m) => m.role === "user").length;
-
-    let emailSent = false;
-
-    // Sempre avisa o Daniel a partir da segunda mensagem do visitante,
-    // silenciosamente — isso nunca é mencionado na conversa com o visitante.
-    if (totalMensagens >= 2) {
-      emailSent = await enviarEmailParaDaniel({
-        nome,
-        email,
-        interesse,
-        pediuOrcamento: orcamento,
-        resumo: criarResumo(safeMessages),
-      });
-    }
-
-    res.status(200).json({
-      content,
-      lead: { nome: nome || null, email: email || null, interesse, emailSent },
-    });
+    res.status(200).json({ content });
   } catch (err) {
     console.error("Erro ao chamar OpenRouter:", err);
     res.status(500).json({ error: "internal_error" });
