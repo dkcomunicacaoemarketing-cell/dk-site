@@ -372,6 +372,32 @@
   .dkia-send:disabled { opacity: 0.3; cursor: default; }
   .dkia-hint { text-align: center; font-size: 0.68rem; color: var(--muted); margin-top: 0.6rem; }
 
+  /* Barra de cookies */
+  .cookie-bar {
+    display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 150;
+    background: var(--fg); color: var(--bg);
+    padding: 1.1rem 1.5rem; box-shadow: 0 -10px 30px rgba(0,0,0,0.18);
+  }
+  .cookie-bar.show { display: flex; }
+  .cookie-bar-inner {
+    max-width: 60rem; margin: 0 auto; display: flex; align-items: center; gap: 1.5rem;
+    flex-wrap: wrap; justify-content: space-between; width: 100%;
+  }
+  .cookie-text { font-size: 0.85rem; line-height: 1.5; flex: 1; min-width: 220px; }
+  .cookie-text a { color: var(--bg); text-decoration: underline; }
+  .cookie-actions { display: flex; gap: 0.6rem; flex-shrink: 0; }
+  .cookie-btn {
+    border: none; border-radius: 999px; padding: 0.6rem 1.2rem; font-size: 0.82rem; font-weight: 600;
+    cursor: pointer; font-family: "Archivo", sans-serif; transition: opacity 0.2s;
+  }
+  .cookie-btn:hover { opacity: 0.85; }
+  .cookie-accept { background: var(--bg); color: var(--fg); }
+  .cookie-decline { background: transparent; color: var(--bg); border: 1px solid rgba(242,241,237,0.4); }
+  @media (max-width: 640px) {
+    .cookie-bar-inner { flex-direction: column; align-items: stretch; }
+    .cookie-actions { justify-content: flex-end; }
+  }
+
   /* Menu fixo no topo, acima do logo DK */
   .topnav {
     position: sticky; top: 0; z-index: 60;
@@ -760,10 +786,50 @@
       <p class="body-text" style="margin-top:0.5rem; color:var(--muted);">Assessoria de Comunicação e Marketing atenta aos detalhes.</p>
       <p style="margin-top:0.75rem; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.22em; color:var(--muted);">Planejamento • Estratégia • Comunicação • Marketing Político</p>
       <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--muted);">2026 © DK Marketing Político • Todos os direitos reservados.</p>
+      <p style="margin-top:0.6rem; font-size:0.8rem;">
+        <a href="privacidade.html" style="color:var(--muted); text-decoration:underline;">Política de Privacidade</a>
+        <span style="color:var(--border); margin:0 0.5rem;">•</span>
+        <a href="termos.html" style="color:var(--muted); text-decoration:underline;">Termos &amp; Condições</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Barra de cookies -->
+  <div class="cookie-bar" id="cookieBar">
+    <div class="cookie-bar-inner">
+      <p class="cookie-text">Usamos cookies para melhorar sua experiência de navegação e analisar o desempenho do site. Ao continuar, você concorda com a nossa <a href="privacidade.html">Política de Privacidade</a>.</p>
+      <div class="cookie-actions">
+        <button class="cookie-btn cookie-decline" id="cookieDeclineBtn" type="button">Recusar</button>
+        <button class="cookie-btn cookie-accept" id="cookieAcceptBtn" type="button">Aceitar</button>
+      </div>
     </div>
   </div>
 
 <script>
+  // ---------- Barra de cookies ----------
+  (function () {
+    const cookieBar = document.getElementById('cookieBar');
+    const acceptBtn = document.getElementById('cookieAcceptBtn');
+    const declineBtn = document.getElementById('cookieDeclineBtn');
+    if (!cookieBar) return;
+
+    const STORAGE_KEY = 'dkCookieConsent';
+    let consent = null;
+    try { consent = localStorage.getItem(STORAGE_KEY); } catch (e) { /* localStorage indisponível */ }
+
+    if (!consent) {
+      cookieBar.classList.add('show');
+    }
+
+    function setConsent(value) {
+      try { localStorage.setItem(STORAGE_KEY, value); } catch (e) { /* localStorage indisponível */ }
+      cookieBar.classList.remove('show');
+    }
+
+    if (acceptBtn) acceptBtn.addEventListener('click', () => setConsent('accepted'));
+    if (declineBtn) declineBtn.addEventListener('click', () => setConsent('declined'));
+  })();
+
   // ---------- Menu mobile: abrir/fechar ----------
   const topnavToggleBtn = document.getElementById('topnavToggleBtn');
   const topnavCloseBtn = document.getElementById('topnavCloseBtn');
@@ -816,26 +882,52 @@
 
   // ---------- Scroll Typewriter: revela o texto proporcionalmente à posição do scroll ----------
   // Mesmo princípio do manifesto: progresso = posição do elemento na tela, sem timers.
+  // Otimizado com IntersectionObserver: só recalcula elementos perto da viewport,
+  // evitando travamento por recalcular a página inteira a cada frame de scroll.
   const scrollTypewriters = [];
   function setupScrollTypewriter(el) {
     const fullText = el.textContent;
     el.textContent = '';
     const span = document.createElement('span');
     el.appendChild(span);
-    scrollTypewriters.push({ el, span, fullText });
+    scrollTypewriters.push({ el, span, fullText, lastCount: -1 });
   }
   document.querySelectorAll('.modulo-item h3, .modulo-item p, .quem-text p, .h2type, .tw').forEach(setupScrollTypewriter);
+
+  const activeTypewriters = new Set();
+  const twByEl = new Map(scrollTypewriters.map((tw) => [tw.el, tw]));
+  const twObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const tw = twByEl.get(entry.target);
+      if (!tw) return;
+      if (entry.isIntersecting) activeTypewriters.add(tw);
+      else activeTypewriters.delete(tw);
+    });
+  }, { rootMargin: '15% 0px -15% 0px', threshold: 0 });
+  scrollTypewriters.forEach((tw) => twObserver.observe(tw.el));
 
   function updateScrollTypewriters() {
     const vh = window.innerHeight;
     const start = vh * 0.92;
     const end = vh * 0.35;
-    scrollTypewriters.forEach(({ span, fullText, el }) => {
-      const rect = el.getBoundingClientRect();
+
+    // 1) Fase de leitura: mede todos os elementos ativos antes de mexer no DOM,
+    //    evitando forçar recálculo de layout a cada elemento (layout thrashing).
+    const updates = [];
+    activeTypewriters.forEach((tw) => {
+      const rect = tw.el.getBoundingClientRect();
       let progress = (start - rect.top) / (start - end);
       progress = Math.min(Math.max(progress, 0), 1);
-      const count = Math.round(progress * fullText.length);
-      span.textContent = fullText.slice(0, count);
+      updates.push({ tw, progress });
+    });
+
+    // 2) Fase de escrita: só então atualiza o texto, e só quando ele de fato mudou.
+    updates.forEach(({ tw, progress }) => {
+      const count = Math.round(progress * tw.fullText.length);
+      if (count !== tw.lastCount) {
+        tw.span.textContent = tw.fullText.slice(0, count);
+        tw.lastCount = count;
+      }
     });
   }
   let scrollTypeFrame = null;
