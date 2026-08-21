@@ -279,6 +279,8 @@
     padding: 0.6rem 0.9rem; border-radius: 50%; cursor: pointer; font-size: 1rem;
   }
   .portfolio-btn:hover { background: rgba(255,255,255,0.35); }
+  .slider .item.video-item { padding: 0; background-color: #000; }
+  .slider .item.video-item video { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; display: block; }
 
   /* Quem está à frente */
   .quem-flex { margin-top: 2.5rem; display: flex; flex-direction: column; align-items: center; gap: 2.5rem; }
@@ -601,15 +603,15 @@
     <div class="portfolio-slider-wrap">
       <main class="portfolio-main">
         <ul class="slider">
-          <video class="item" src="assets/videos/video1.mp4" controls playsinline></video>
-          <video class="item" src="assets/videos/video2.mp4" controls playsinline></video>
-          <video class="item" src="assets/videos/video3.mp4" controls playsinline></video>
-          <video class="item" src="assets/videos/video4.mp4" controls playsinline></video>
-          <video class="item" src="assets/videos/video5.mp4" controls playsinline></video>
-          <video class="item" src="assets/videos/video6.mp4" controls playsinline></video>
-          <video class="item" src="assets/videos/video7.mp4" controls playsinline></video>
-          <video class="item" src="assets/videos/video8.mp4" controls playsinline></video>
-          <video class="item" src="assets/videos/video9.mp4" controls playsinline></video>
+          <li class="item video-item"><video src="assets/videos/video1.mp4" controls playsinline></video></li>
+          <li class="item video-item"><video src="assets/videos/video2.mp4" controls playsinline></video></li>
+          <li class="item video-item"><video src="assets/videos/video3.mp4" controls playsinline></video></li>
+          <li class="item video-item"><video src="assets/videos/video4.mp4" controls playsinline></video></li>
+          <li class="item video-item"><video src="assets/videos/video5.mp4" controls playsinline></video></li>
+          <li class="item video-item"><video src="assets/videos/video6.mp4" controls playsinline></video></li>
+          <li class="item video-item"><video src="assets/videos/video7.mp4" controls playsinline></video></li>
+          <li class="item video-item"><video src="assets/videos/video8.mp4" controls playsinline></video></li>
+          <li class="item video-item"><video src="assets/videos/video9.mp4" controls playsinline></video></li>
 
           <li class="item" style="background-image: url('assets/fotos/foto1.jpg')">
             <span class="item-slot">f1</span>
@@ -796,11 +798,16 @@
   // ---------- Portfólio: carrossel empilhado ----------
   const portfolioSlider = document.querySelector('.slider');
   if (portfolioSlider) {
+    function pauseAllPortfolioVideos() {
+      portfolioSlider.querySelectorAll('video').forEach((v) => v.pause());
+    }
     document.querySelector('.portfolio-next').addEventListener('click', () => {
+      pauseAllPortfolioVideos();
       const items = portfolioSlider.querySelectorAll('.item');
       portfolioSlider.append(items[0]);
     });
     document.querySelector('.portfolio-prev').addEventListener('click', () => {
+      pauseAllPortfolioVideos();
       const items = portfolioSlider.querySelectorAll('.item');
       portfolioSlider.prepend(items[items.length - 1]);
     });
