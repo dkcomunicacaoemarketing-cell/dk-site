@@ -237,6 +237,33 @@
   .tags { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 0.6rem; }
   .tag { border-radius: 999px; background: #e5e3dd; padding: 0.6rem 1.2rem; font-size: 0.85rem; font-weight: 500; }
 
+  /* Trajetória da campanha — fases numeradas */
+  .fases-grupo { margin-top: 4rem; }
+  .fases-grupo:first-child { margin-top: 3rem; }
+  .fases-grupo-titulo {
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.24em;
+    color: var(--muted); margin-bottom: 1.5rem;
+  }
+  .fase-bloco { margin-top: 2.5rem; }
+  .fase-bloco:first-child { margin-top: 0; }
+  .fase-tag {
+    display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--muted); background: #e5e3dd; border-radius: 999px;
+    padding: 0.35rem 0.9rem; margin-bottom: 0.9rem;
+  }
+  .fase-titulo { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; max-width: 42rem; }
+  @media (min-width: 640px) { .fase-titulo { font-size: 1.6rem; } }
+  .fase-cards { margin-top: 2rem; display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .fase-cards { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .fase-cards { grid-template-columns: 1fr 1fr 1fr; } }
+  .fase-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 1.1rem;
+    padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;
+  }
+  .fase-num { font-family: "Instrument Serif", serif; font-size: 1.6rem; color: var(--muted); }
+  .fase-card h4 { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+  .fase-card p { font-size: 0.95rem; color: var(--muted); line-height: 1.55; }
+
   /* Portfólio — carrossel original, pronto pra receber mídia real */
   .portfolio-slider-wrap { margin-top: 3rem; }
   .portfolio-main {
@@ -536,14 +563,14 @@
 
         <div class="clay-element flow-card flow-card-big gs-reveal" style="left:1460px; top:600px;">
           <div class="flow-card-solid" style="background:#2b2b2b;">
-            <h3 class="flow-card-title-big tw">Construindo posicionamento com direção clara</h3>
-            <p class="flow-card-text tw">A DK constrói o discurso, o conceito e o posicionamento de candidatos, mandatos e instituições, conectando quem governa ou disputa com o eleitor de forma direta e coerente. Cada projeto nasce de um diagnóstico real, não de fórmula pronta.</p>
+            <h3 class="flow-card-title-big tw">Construindo posicionamento com direção</h3>
+            <p class="flow-card-text tw">A DK constrói o discurso, o conceito e o posicionamento de candidatos, mandatos e instituições, conectando projetos a pessoas, com direção, coerência e clareza. Cada projeto nasce de um diagnóstico real, não de fórmula pronta.</p>
           </div>
         </div>
         <div class="clay-element flow-card flow-card-big gs-reveal" style="left:2120px; top:400px;">
           <div class="flow-card-solid" style="background:#2b2b2b;">
-            <h3 class="flow-card-title-big tw">Uma só equipe, do jornalismo à produção</h3>
-            <p class="flow-card-text tw">Com bagagem de jornalismo, publicidade, fotografia, administração e inteligência artificial dentro de casa, a DK entrega assessoria de imprensa, redes sociais, identidade visual, cobertura fotográfica, audiovisual e IA sob uma mesma direção, com coerência entre o que se fala, o que se mostra e o que se entrega.</p>
+            <h3 class="flow-card-title-big tw">Uma só equipe, da estratégia à produção de conteúdo</h3>
+            <p class="flow-card-text tw">Com bagagem de jornalismo, publicidade, fotografia, administração e inteligência artificial dentro de casa, a DK entrega consultoria, narrativa, fotografia institucional, identidade visual, audiovisual, assessoria de imprensa, redes sociais, acompanhamento, cobertura e IA sob uma mesma direção, entre o que se fala, o que se mostra e o que se entrega.</p>
           </div>
         </div>
         <div class="clay-element flow-card flow-card-big gs-reveal" style="left:2120px; top:800px;">
@@ -559,14 +586,14 @@
     <div class="mobile-flow">
       <div class="mobile-flow-item">
         <div class="mobile-flow-card">
-          <h3 class="tw">Construindo posicionamento com direção clara</h3>
-          <p class="tw">A DK constrói o discurso, o conceito e o posicionamento de candidatos, mandatos e instituições, conectando quem governa ou disputa com o eleitor de forma direta e coerente. Cada projeto nasce de um diagnóstico real, não de fórmula pronta.</p>
+          <h3 class="tw">Construindo posicionamento com direção</h3>
+          <p class="tw">A DK constrói o discurso, o conceito e o posicionamento de candidatos, mandatos e instituições, conectando projetos a pessoas, com direção, coerência e clareza. Cada projeto nasce de um diagnóstico real, não de fórmula pronta.</p>
         </div>
       </div>
       <div class="mobile-flow-item">
         <div class="mobile-flow-card">
-          <h3 class="tw">Uma só equipe, do jornalismo à produção</h3>
-          <p class="tw">Com bagagem de jornalismo, publicidade, fotografia, administração e inteligência artificial dentro de casa, a DK entrega assessoria de imprensa, redes sociais, identidade visual, cobertura fotográfica, audiovisual e IA sob uma mesma direção, com coerência entre o que se fala, o que se mostra e o que se entrega.</p>
+          <h3 class="tw">Uma só equipe, da estratégia à produção de conteúdo</h3>
+          <p class="tw">Com bagagem de jornalismo, publicidade, fotografia, administração e inteligência artificial dentro de casa, a DK entrega consultoria, narrativa, fotografia institucional, identidade visual, audiovisual, assessoria de imprensa, redes sociais, acompanhamento, cobertura e IA sob uma mesma direção, entre o que se fala, o que se mostra e o que se entrega.</p>
         </div>
       </div>
       <div class="mobile-flow-item">
@@ -581,7 +608,7 @@
   <!-- Módulos de atuação -->
   <div class="page-section" id="modulos">
     <div style="text-align:center;">
-      <h2 class="h2type">MÓDULOS DE ATUAÇÃO</h2>
+      <h2 class="h2type">ÁREAS DE ATUAÇÃO</h2>
       <p class="body-text tw" style="margin-top:2rem; max-width:40rem; color:var(--muted); margin-left:auto; margin-right:auto;">
         Comunicação integrada para cada fase da campanha. Cada projeto é construído sob medida, considerando o perfil do candidato, o território e o momento da disputa.
       </p>
@@ -616,6 +643,153 @@
         <svg class="modulo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 21h16M5 21V10l7-5 7 5v11M9 21v-6h6v6" stroke-linejoin="round"/></svg>
         <h3>Comunicação institucional</h3>
         <p>Eleito o candidato, a comunicação muda de fase, e a DK acompanha essa transição, estruturando a comunicação pública do mandato, a gestão das redes, o registro de agenda e a identidade visual que vai representar a gestão perante a população.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trajetória da campanha — fases numeradas -->
+  <div class="page-section" id="fases">
+    <div style="text-align:center;">
+      <h2 class="h2type">A JORNADA DA CAMPANHA, FASE A FASE</h2>
+      <p class="body-text" style="margin-top:2rem; max-width:40rem; color:var(--muted); margin-left:auto; margin-right:auto;">
+        Da construção da candidatura à campanha em curso — cada etapa organizada em frentes de trabalho específicas.
+      </p>
+    </div>
+
+    <div class="fases-grupo">
+      <p class="fases-grupo-titulo">Pré-campanha</p>
+
+      <div class="fase-bloco">
+        <span class="fase-tag">Fase 1</span>
+        <h3 class="fase-titulo">O candidato: consultoria e assessoria</h3>
+        <div class="fase-cards">
+          <div class="fase-card">
+            <span class="fase-num">01</span>
+            <h4>Quem é o candidato</h4>
+            <p>Levantamento da trajetória pessoal, profissional, comunitária e política do candidato para definição da narrativa central da campanha.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">02</span>
+            <h4>Autoavaliação do candidato</h4>
+            <p>Análise estratégica para identificar forças, fraquezas, oportunidades e ameaças da candidatura.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">03</span>
+            <h4>Pesquisa de percepção de imagem no território do candidato</h4>
+            <p>Identificação da forma como o eleitor percebe o candidato, por meio de entrevistas, questionários, coleta de opiniões, consolidação de dados e relatório de percepção.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fase-bloco">
+        <span class="fase-tag">Fase 2</span>
+        <h3 class="fase-titulo">Território, público e mensagem: o planejamento de comunicação eleitoral</h3>
+        <div class="fase-cards">
+          <div class="fase-card">
+            <span class="fase-num">04</span>
+            <h4>Dados demográficos da população e do município</h4>
+            <p>Levantamento que proporciona subsídios para a construção de propostas, discursos e estratégias de comunicação.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">05</span>
+            <h4>O público-alvo do candidato</h4>
+            <p>Definição dos perfis de eleitores prioritários.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">06</span>
+            <h4>A construção da mensagem</h4>
+            <p>Definição dos conceitos centrais da candidatura.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fase-bloco">
+        <span class="fase-tag">Fase 3</span>
+        <h3 class="fase-titulo">Presença digital organizada: configuração, organização e gestão de contas</h3>
+        <div class="fase-cards">
+          <div class="fase-card">
+            <span class="fase-num">07</span>
+            <h4>WhatsApp Business</h4>
+            <p>Criação do WhatsApp Business de campanha, com abertura e/ou migração para conta business e recursos específicos de atendimento.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">08</span>
+            <h4>Padronização de contas das redes sociais</h4>
+            <p>Padronização de nomes de usuário, biografias e vinculação das formas de contato (WhatsApp, e-mail e/ou site), com integração a ferramentas de redirecionamento.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">09</span>
+            <h4>Impulsionamento de redes sociais e gestão de tráfego pago</h4>
+            <p>Planejamento, execução e otimização de campanhas de mídia paga nas plataformas digitais, com foco em ampliar o alcance e fortalecer a imagem do candidato.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fases-grupo">
+      <p class="fases-grupo-titulo">Preparação · Início de campanha</p>
+
+      <div class="fase-bloco">
+        <span class="fase-tag">Fase 4</span>
+        <h3 class="fase-titulo">A construção da imagem e a produção de conteúdo</h3>
+        <div class="fase-cards">
+          <div class="fase-card">
+            <span class="fase-num">10</span>
+            <h4>Fotografia institucional da campanha</h4>
+            <p>Produção de imagens profissionais destinadas aos materiais impressos e digitais da campanha, realizadas em estrutura de estúdio próprio e com inteligência artificial.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">11</span>
+            <h4>Vídeo de lançamento de campanha</h4>
+            <p>Produção audiovisual estratégica para apresentação oficial da campanha, com foco em impacto, narrativa e comunicação da mensagem central.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">12</span>
+            <h4>Vídeos para redes sociais</h4>
+            <p>Produção de vídeos que abrangem os eixos temáticos da campanha.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">13</span>
+            <h4>Identidade visual da campanha</h4>
+            <p>Criação e desenvolvimento do conjunto visual que representa a campanha, garantindo unidade estética.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">14</span>
+            <h4>Vídeos temáticos da campanha</h4>
+            <p>Produção de vídeos que aprofundam os eixos temáticos e os principais pontos da candidatura.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fases-grupo">
+      <p class="fases-grupo-titulo">Início de campanha</p>
+
+      <div class="fase-bloco">
+        <span class="fase-tag">Em campanha</span>
+        <h3 class="fase-titulo">A campanha eleitoral</h3>
+        <div class="fase-cards">
+          <div class="fase-card">
+            <span class="fase-num">15</span>
+            <h4>Produção de texto</h4>
+            <p>Desenvolvimento de textos estratégicos para diferentes canais, incluindo roteiros para gravação de vídeos, redes sociais e programas de rádio/TV, além de legendas para publicações de redes sociais.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">16</span>
+            <h4>Gestão de redes sociais</h4>
+            <p>Monitoramento contínuo da reputação digital, interação com o público e manutenção de uma comunicação coerente com o posicionamento da campanha.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">17</span>
+            <h4>Cobertura fotográfica e audiovisual de campanha</h4>
+            <p>Registro fotográfico e audiovisual de eventos políticos.</p>
+          </div>
+          <div class="fase-card">
+            <span class="fase-num">18</span>
+            <h4>Inteligência artificial de atendimento ao eleitor</h4>
+            <p>Implantação de inteligência artificial treinada com a história, propostas e posicionamentos do candidato para atendimento automático aos eleitores, incluindo construção da base de conhecimento, alimentação de propostas, integração com as redes do candidato e configuração de fluxos.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
