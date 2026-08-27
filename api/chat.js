@@ -142,33 +142,103 @@ function escaparHtml(texto) {
     .replace(/'/g, "&#039;");
 }
 
+async function gerarResumoIA(messages) {
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) return null;
+
+  const instrucao = `Você é a DK IA e acabou de conversar com um visitante do site da DK Marketing Político. Com base na conversa, responda SOMENTE em JSON válido, sem nada fora do JSON, neste formato:
+{"nome": "nome do visitante ou null", "assunto": "resumo curto do assunto, ex: Campanha para vereador em Porto Alegre", "mensagem": "resumo em até 4 frases do que o visitante contou e do que ele quer", "parecer": "2 a 3 frases na sua voz, dirigidas ao Daniel, começando com 'Dani,' — diga o quão qualificado parece esse contato, se demonstrou intenção real de contratar ou pediu orçamento, e sugira o próximo passo"}`;
+
+  const conversa = messages
+    .map((m) => `${m.role === "user" ? "Visitante" : "DK IA"}: ${m.content}`)
+    .join("\n");
+
+  try {
+    const upstream = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+        "HTTP-Referer": "https://dkmarketingpolitico.com.br",
+        "X-Title": "DK Marketing Político",
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: [
+          { role: "system", content: instrucao },
+          { role: "user", content: conversa },
+        ],
+        temperature: 0.4,
+        max_tokens: 400,
+        response_format: { type: "json_object" },
+      }),
+    });
+    if (!upstream.ok) return null;
+    const data = await upstream.json();
+    const raw = data.choices?.[0]?.message?.content ?? "";
+    return JSON.parse(raw);
+  } catch (err) {
+    console.error("Erro ao gerar resumo com IA:", err);
+    return null;
+  }
+}
+
+const MOTIVO_LABEL = {
+  inatividade: "ela ficou um tempo sem resposta",
+  fechou_a_caixa: "ele fechou a conversa",
+  saiu_da_pagina: "ele saiu do site",
+  desconhecido: "a conversa foi encerrada",
+};
+
 async function enviarEmailParaDaniel(lead) {
   const resendKey = process.env.RESEND_API_KEY;
-
   if (!resendKey) {
     console.error("RESEND_API_KEY não configurada.");
     return false;
   }
-
   const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
-  const statusOrcamento = lead.pediuOrcamento ? "🔥 PEDIU ORÇAMENTO" : "Conversa encerrada";
-  const assunto = `[Chat DK] ${lead.nome || "Visitante"} — ${lead.interesse} — ${statusOrcamento}`;
+  const nome = lead.nome || "Visitante não identificado";
+  const motivoLabel = MOTIVO_LABEL[lead.motivo] || MOTIVO_LABEL.desconhecido;
+  const assunto = `[DK IA] ${nome} — ${lead.assunto || "Novo contato"}${lead.pediuOrcamento ? " · 🔥 orçamento" : ""}`;
+
+  function linhaCampo(label, valor, ultima) {
+    return `
+      <div style="padding:14px 0;${ultima ? "" : "border-bottom:1px solid #ececec;"}">
+        <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#9a9a9a;">${label}</p>
+        <p style="margin:0;font-size:15px;font-weight:600;color:#1a1a1a;line-height:1.5;">${valor}</p>
+      </div>`;
+  }
 
   const html = `
-    <div style="font-family:Arial,sans-serif;line-height:1.6;color:#222">
-      <h2>Conversa com a DK IA</h2>
-      <p><strong>Nome:</strong> ${escaparHtml(lead.nome || "Não informado")}</p>
-      <p><strong>E-mail:</strong> ${escaparHtml(lead.email || "Não informado")}</p>
-      <p><strong>Interesse identificado:</strong> ${escaparHtml(lead.interesse)}</p>
-      <p><strong>Status:</strong> ${escaparHtml(statusOrcamento)}</p>
-      <hr>
-      <h3>Resumo da conversa</h3>
-      <p style="white-space:pre-wrap">${escaparHtml(lead.resumo)}</p>
-      <hr>
-      <p style="font-size:12px;color:#888">Enviado automaticamente pela DK IA ao final da conversa.</p>
+  <div style="background:#f2f1ed;padding:32px 16px;font-family:Arial,Helvetica,sans-serif;">
+    <div style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:18px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,0.12);">
+      <div style="background:linear-gradient(135deg,#111318,#1c2030);padding:28px 32px;">
+        <p style="margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c9a24b;">DK Marketing Político</p>
+        <h1 style="margin:0;font-size:26px;font-weight:800;color:#ffffff;line-height:1.2;">Nova conversa com a DK IA</h1>
+        ${lead.pediuOrcamento ? `<p style="margin:14px 0 0;display:inline-block;background:#e0432c;color:#fff;font-size:12px;font-weight:700;letter-spacing:0.5px;padding:6px 12px;border-radius:999px;">🔥 PEDIU ORÇAMENTO</p>` : ""}
+      </div>
+      <div style="padding:28px 32px 8px;">
+        <p style="margin:0;font-size:15px;line-height:1.6;color:#1a1a1a;">
+          Dani, <strong>${escaparHtml(nome)}</strong> entrou em contato pelo site — ${escaparHtml(motivoLabel)}.
+        </p>
+      </div>
+      <div style="padding:8px 32px 8px;">
+        ${linhaCampo("NOME", escaparHtml(nome))}
+        ${lead.email ? linhaCampo("E-MAIL", `<a href="mailto:${escaparHtml(lead.email)}" style="color:#1a1a1a;text-decoration:underline;">${escaparHtml(lead.email)}</a>`) : ""}
+        ${linhaCampo("ASSUNTO", escaparHtml(lead.assunto || "Não identificado"))}
+        ${linhaCampo("MENSAGEM", escaparHtml(lead.mensagem || "—"))}
+        ${linhaCampo("PARECER DA DK IA", escaparHtml(lead.parecer || "—"), true)}
+      </div>
+      <details style="margin:8px 32px 28px;">
+        <summary style="cursor:pointer;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6b6b6b;">Ver conversa completa</summary>
+        <p style="white-space:pre-wrap;font-size:13px;line-height:1.6;color:#444;margin-top:10px;">${escaparHtml(lead.resumoCompleto)}</p>
+      </details>
+      <div style="background:#f7f6f3;padding:18px 32px;text-align:center;">
+        <a href="https://dkmarketingpolitico.com.br" style="color:#1a1a1a;font-size:13px;text-decoration:underline;">dkmarketingpolitico.com.br</a>
+      </div>
     </div>
-  `;
+  </div>`;
 
   const payload = {
     from: `DK IA <${fromEmail}>`,
@@ -176,26 +246,19 @@ async function enviarEmailParaDaniel(lead) {
     subject: assunto,
     html,
   };
-
   if (lead.email) payload.reply_to = lead.email;
 
   try {
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${resendKey}`,
-      },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${resendKey}` },
       body: JSON.stringify(payload),
     });
-
     if (!response.ok) {
-      const erro = await response.text();
-      console.error("Erro ao enviar e-mail pelo Resend:", response.status, erro);
+      console.error("Erro ao enviar e-mail pelo Resend:", response.status, await response.text());
       return false;
     }
-
-    console.log("Resumo final enviado para Daniel.");
+    console.log("Resumo enviado para Daniel.");
     return true;
   } catch (erro) {
     console.error("Erro no envio do e-mail:", erro);
@@ -245,7 +308,7 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  // Modo "finalizar": não chama a IA, só manda o resumo pro Daniel e encerra.
+  // Modo "finalizar": não chama a IA de conversa, gera o resumo e manda pro Daniel.
   if (body.finalizar === true) {
     const totalMensagens = safeMessages.filter((m) => m.role === "user").length;
 
@@ -254,17 +317,21 @@ module.exports = async function handler(req, res) {
       return;
     }
 
+    const motivo = typeof body.motivo === "string" ? body.motivo : "desconhecido";
     const email = extrairEmail(safeMessages);
-    const nome = extrairNome(safeMessages);
-    const interesse = identificarInteresse(safeMessages);
     const orcamento = pediuOrcamento(safeMessages);
+    const resumoCompleto = criarResumo(safeMessages);
+    const resumoIA = await gerarResumoIA(safeMessages);
 
     const emailSent = await enviarEmailParaDaniel({
-      nome,
+      nome: resumoIA?.nome || extrairNome(safeMessages),
       email,
-      interesse,
+      assunto: resumoIA?.assunto || identificarInteresse(safeMessages),
+      mensagem: resumoIA?.mensagem,
+      parecer: resumoIA?.parecer,
       pediuOrcamento: orcamento,
-      resumo: criarResumo(safeMessages),
+      motivo,
+      resumoCompleto,
     });
 
     res.status(200).json({ ok: true, emailSent });
