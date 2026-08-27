@@ -1179,6 +1179,34 @@ FASE A FASE</h2>
     let loading = false;
     let opened = false;
 
+    // --- controle do envio automático do resumo pro Daniel ---
+    let idleTimer = null;
+    let lastSentCount = 0; // quantas mensagens já foram no último envio
+    const IDLE_MS = 10000; // 10s sem o visitante responder
+
+    function agendarEnvioPorInatividade() {
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => enviarResumo('inatividade'), IDLE_MS);
+    }
+
+    function cancelarEnvioPorInatividade() {
+      if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
+    }
+
+    function enviarResumo(motivo) {
+      if (history.length === 0 || history.length === lastSentCount) return;
+      lastSentCount = history.length;
+      try {
+        const blob = new Blob(
+          [JSON.stringify({ messages: history, finalizar: true, motivo })],
+          { type: 'application/json' }
+        );
+        navigator.sendBeacon('/api/chat', blob);
+      } catch (err) {
+        console.error('Falha ao enviar resumo para o Daniel:', err);
+      }
+    }
+
     function addBubble(role, content, animate) {
       const row = document.createElement('div');
       row.className = 'dkia-msg ' + role;
@@ -1194,7 +1222,7 @@ FASE A FASE</h2>
       }
 
       let i = 0;
-      const speed = 14; // ms por caractere
+      const speed = 14;
       const timer = setInterval(() => {
         i++;
         bubble.textContent = content.slice(0, i);
@@ -1232,11 +1260,16 @@ FASE A FASE</h2>
 
     function closeModal() {
       overlay.classList.remove('open');
+      cancelarEnvioPorInatividade();
+      enviarResumo('fechou_a_caixa');
     }
 
     async function submit() {
       const text = input.value.trim();
       if (!text || loading) return;
+
+      cancelarEnvioPorInatividade();
+
       addBubble('user', text, false);
       history.push({ role: 'user', content: text });
       input.value = '';
@@ -1261,6 +1294,8 @@ FASE A FASE</h2>
         addBubble('assistant', 'Desculpe, tive um problema para responder agora. Tente novamente em instantes.', true);
         console.error(err);
       }
+
+      agendarEnvioPorInatividade();
     }
 
     openBtn.addEventListener('click', openModal);
@@ -1279,6 +1314,9 @@ FASE A FASE</h2>
       }
     });
     sendBtn.addEventListener('click', submit);
+
+    window.addEventListener('pagehide', () => enviarResumo('saiu_da_pagina'));
+    window.addEventListener('beforeunload', () => enviarResumo('saiu_da_pagina'));
   })();
 </script>
 </body>
