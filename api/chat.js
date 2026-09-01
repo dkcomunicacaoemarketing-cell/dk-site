@@ -191,11 +191,19 @@ const MOTIVO_LABEL = {
   desconhecido: "a conversa foi encerrada",
 };
 
+/**
+ * Envia o e-mail de resumo para o Daniel via Resend.
+ * IMPORTANTE: em vez de devolver só true/false, devolve sempre um objeto
+ * { ok, motivo } para que o handler consiga repassar o motivo real do erro
+ * na resposta JSON — assim dá pra ver o problema direto no Network tab do
+ * navegador, sem precisar abrir os logs da Vercel.
+ */
 async function enviarEmailParaDaniel(lead) {
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey) {
-    console.error("RESEND_API_KEY não configurada.");
-    return false;
+    const motivo = "RESEND_API_KEY não configurada no ambiente.";
+    console.error(motivo);
+    return { ok: false, motivo };
   }
   const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
@@ -255,15 +263,20 @@ async function enviarEmailParaDaniel(lead) {
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${resendKey}` },
       body: JSON.stringify(payload),
     });
+
     if (!response.ok) {
-      console.error("Erro ao enviar e-mail pelo Resend:", response.status, await response.text());
-      return false;
+      const corpoErro = await response.text();
+      const motivo = `Resend respondeu ${response.status}: ${corpoErro}`;
+      console.error("Erro ao enviar e-mail pelo Resend:", motivo);
+      return { ok: false, motivo };
     }
+
     console.log("Resumo enviado para Daniel.");
-    return true;
+    return { ok: true, motivo: null };
   } catch (erro) {
-    console.error("Erro no envio do e-mail:", erro);
-    return false;
+    const motivo = `Falha de rede/exceção ao chamar o Resend: ${erro && erro.message ? erro.message : String(erro)}`;
+    console.error("Erro no envio do e-mail:", motivo);
+    return { ok: false, motivo };
   }
 }
 
@@ -324,7 +337,7 @@ module.exports = async function handler(req, res) {
     const resumoCompleto = criarResumo(safeMessages);
     const resumoIA = await gerarResumoIA(safeMessages);
 
-    const emailSent = await enviarEmailParaDaniel({
+    const resultadoEnvio = await enviarEmailParaDaniel({
       nome: resumoIA?.nome || extrairNome(safeMessages),
       email,
       assunto: resumoIA?.assunto || identificarInteresse(safeMessages),
@@ -335,7 +348,13 @@ module.exports = async function handler(req, res) {
       resumoCompleto,
     });
 
-    res.status(200).json({ ok: true, emailSent });
+    // A resposta agora sempre traz o motivo real quando falha,
+    // visível direto no Network tab do navegador.
+    res.status(200).json({
+      ok: true,
+      emailSent: resultadoEnvio.ok,
+      emailError: resultadoEnvio.ok ? null : resultadoEnvio.motivo,
+    });
     return;
   }
 
