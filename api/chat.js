@@ -30,7 +30,7 @@ A DK está dentro do próprio site. Quando for útil, encaminhe a pessoa para as
 A DK IA informa, esclarece, apresenta, direciona e desperta interesse pelo trabalho da DK, mas não substitui a equipe nem entrega gratuitamente o serviço profissional da empresa.`;
 
 const MODEL = process.env.OPENROUTER_MODEL || "openai/gpt-4o-mini";
-const DANIEL_EMAIL = "dkcomunicacaoemarketing@gmail.com";
+const DANIEL_EMAIL = "dkcomunicacaoemarketing@gmail.com,danielcosta.jornalista@gmail.com";
 
 function extrairEmail(messages) {
   const regex = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i;
